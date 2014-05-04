@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!-- Define general information here. -->
+<dynamicTemplateSystem id="dts.helloWorld" name="Dynamic Template System Hello World Sample-Project">	
+	<!-- 
+	Register all plugins you want to be able to use. Pick any key you want to use, but be sure to provide 
+	the fullqualified classname as class.
+	-->
+	<plugins>
+		<processing key="clearDirectory" class="de.groth.dts.plugins.processings.ProcessingTypeClearDirectory" />
+		<processing key="copy" class="de.groth.dts.plugins.processings.ProcessingTypeCopyResources" />
+		<processing key="delete" class="de.groth.dts.plugins.processings.ProcessingTypeDeleteResources" />
+		<processing key="generateConfig" class="de.groth.dts.plugins.processings.ProcessingTypeGenerateConfig" />
+		
+		<param key="empty" class="de.groth.dts.plugins.parameters.ParameterTypeEmpty" />
+		<param key="simple" class="de.groth.dts.plugins.parameters.ParameterTypeSimple" />
+		<param key="complex" class="de.groth.dts.plugins.parameters.ParameterTypeComplex" />
+		<param key="fileContent" class="de.groth.dts.plugins.parameters.ParameterTypeFileContent" />
+		<param key="state" class="de.groth.dts.plugins.parameters.ParameterTypeState" />
+		<param key="pageInclude" class="de.groth.dts.plugins.parameters.ParameterTypePageInclude" />
+		<param key="propertyReader" class="de.groth.dts.plugins.parameters.ParameterTypePropertyReader" />
+		<param key="xslt" class="de.groth.dts.plugins.parameters.ParameterTypeXslt" />
+		<param key="insertionPattern" class="de.groth.dts.plugins.parameters.ParameterTypeInsertionPattern" />
+		
+		<generic key="dts.currentDate" class="de.groth.dts.plugins.generics.GenericTypeCurrentDate" />
+		<generic key="dts.dynamicPath" class="de.groth.dts.plugins.generics.GenericTypeDynamicPath" />
+		<generic key="dts.fileContent" class="de.groth.dts.plugins.generics.GenericTypeFileContent" />
+		<generic key="dts.pageId" class="de.groth.dts.plugins.generics.GenericTypePageId" />
+		<generic key="dts.pageInclude" class="de.groth.dts.plugins.generics.GenericTypePageInclude" />
+		<generic key="dts.propertyReader" class="de.groth.dts.plugins.generics.GenericTypePropertyReader" />
+		<generic key="dts.state" class="de.groth.dts.plugins.generics.GenericTypeState" />
+		<generic key="dts.xslt" class="de.groth.dts.plugins.generics.GenericTypeXslt" />
+		<generic key="dts.insertionPattern" class="de.groth.dts.plugins.generics.GenericTypeInsertionPattern" />
+	</plugins>
+	
+	<!-- Define processings. Processings are executed when exporting all pages (e. g. when using BatchInvoker) -->
+	<processings>
+		<!-- Processings before exporting pages -->
+		<pre>
+			<!-- Clear output dir -->
+			<processing type="clearDirectory" path="." />
+		</pre>
+		<!-- Processings after exporting pages -->
+		<post>
+			<!-- copy static resources and delete them afterwards -->
+			<!-- we provide a wrong path so we can demonstrate the delete-processing ;-) -->
+			<processing type="copy" from="static" to="static" />
+			<processing type="delete" path="static" />
+			
+			<!-- copy static resources -->
+			<processing type="copy" from="static" to="." />
+			
+			<!-- this generates this xml-file, nice to have a backup -->
+			<processing type="generateConfig" path="." file="config.dts.xml" />
+		</post>
+	</processings>
+	
+	<!-- 
+	Define themes here. ThemeIDs must be unique.
+	We provide one page per parameter/generic we want to show, apart from some basic
+	parameters and generics, which will be handled by the theme. 
+	-->
+	<themes>
+		<!-- This is the main handling basic parameters/generics -->
+		<theme id="default" template="themes/helloWorld.html">
+			<!-- Define parameterrs. They can be overridden by pages, so this are the default values -->
+			<!-- basic parameters empty, simple and complex -->
+			<param type="empty" name="theme.content.text" />
+			<param type="simple" name="theme.content.title" value="${dts.pageId}" />
+			
+			<!-- using generic dynamicPath inside -->
+			<param type="complex" name="theme.head" cropCData="1">
+			<![CDATA[
+				<!-- after generation, no cdata will be left -->
+				<!-- you can use cdata cropping if your parameter value is not valid xml content -->
+				<!-- this comments will be - of course part of the output -->
+				<link type="text/css" href="${dts.dynamicPath}styles/basic.css" rel="stylesheet"/>
+			]]>
+			</param>
+			
+			<!-- 
+			use java.text.SimpleDateFormat API to define the format argument
+			http://java.sun.com/j2se/1.5.0/docs/api/java/text/SimpleDateFormat.html
+			-->
+			<param type="complex" name="theme.content.placeHolder">
+				${dts.currentDate:type=export,format=yyyy/MM/dd HH:mm:ss.SSS}
+			</param>
+		</theme>
+		
+		<!-- This is a theme that references a superTheme and overwrites the parameters -->
+		<!-- just using a different date format to demonstrate -->
+		<theme id="default2" superThemeId="default">
+			<!-- 
+			use java.text.SimpleDateFormat API to define the format argument
+			http://java.sun.com/j2se/1.5.0/docs/api/java/text/SimpleDateFormat.html
+			-->
+			<param type="complex" name="theme.content.placeHolder">
+				${dts.currentDate:type=export,format=yyyy/MM/dd}
+			</param>
+		</theme>
+		
+		<!-- this is the main theme for pages which will be included -->
+		<theme id="partial" template="themes/partial.html" />
+	</themes>
+	
+	<!-- Define concrete pages here -->
+	<!-- 
+	Notice: You can omit the attribute file, but then this page won't be exported during exportAll. If you try 
+	to export such a page explicitly an exception will be thrown! 
+	-->
+	<pages>
+		<!-- index page show overloading the empty parameter defined in theme --> 
+		<page id="index" theme="default" file="index.html">
+			<param type="simple" name="theme.content.text" value="this one is overloaded!" />
+		</page>
+		
+		<!-- page that will be included and not exported uring exportAll (no file given) -->
+		<page id="pageToInclude" theme="partial" file=""/>
+		
+		<!-- all following pages use one dts-concept -->
+		
+		<page id="themeWithSuperThemeId" theme="default2" file="superTheme.html">
+			<param type="simple" name="theme.content.text" value="Take a look at the changed date format!" />
+		</page>
+		
+		
+		<page id="paramAndGenericFileContent" theme="default" file="fileContent.html">
+			<param type="fileContent" name="theme.content.title" file="data/${dts.pageId}.inc.html" />
+			<param type="complex" name="theme.content.text">
+				${dts.fileContent:file=data/paramAndGenericFileContent2.inc.html}
+			</param>
+		</page>
+		
+		<page id="paramAndGenericState" theme="default" file="state.html">
+			<param type="state" name="theme.content.title" state="contentTitle" value="${dts.pageId}" />
+			<param type="complex" name="theme.content.text">
+				${dts.state:state=contentTitle,value=other}
+				${dts.state:state=contentTitle,value=notDefined}
+			</param>
+		</page>
+		
+		<page id="paramPageInclude" theme="default" file="pageIncludeViaParameter.html">
+			<param type="state" name="theme.content.title" state="contentTitle" value="${dts.pageId}" />
+			<param type="pageInclude" name="theme.content.text" page="pageToInclude" />
+		</page>
+		
+		<page id="genericPageInclude" theme="default" file="pageIncludeViaGeneric.html">
+			<param type="state" name="theme.content.title" state="contentTitle" value="${dts.pageId}" />
+			<param type="complex" name="theme.content.text">
+				${dts.pageInclude:page=pageToInclude}
+			</param>
+		</page>
+		
+		<page id="paramAndGenericPropertyReader" theme="default" file="propertyReader.html">
+			<param type="propertyReader" name="theme.content.title" properties="data/some.properties" key="title" />
+			<param type="complex" name="theme.content.text">
+				${dts.propertyReader:properties=data/some.properties,key=content}
+			</param>
+		</page>
+		
+		<page id="paramXslt" theme="default" file="xsltViaParameter.html">
+			<param type="state" name="theme.content.title" state="contentTitle" value="${dts.pageId}" />
+			<param type="xslt" name="theme.content.text" xml="data/helloWorld.xml" xsl="data/helloWorld.xsl"/>
+		</page>
+		
+		<page id="genericXslt" theme="default" file="xsltViaGeneric.html">
+			<param type="state" name="theme.content.title" state="contentTitle" value="${dts.pageId}" />
+			<param type="complex" name="theme.content.text">
+				${dts.xslt:xml=data/helloWorld.xml,xsl=data/helloWorld.xsl}
+			</param>
+		</page>
+		
+		<page id="paramInsertionPattern" theme="default" file="insertionPatternViaParameter.html">
+			<param type="state" name="theme.content.title" state="contentTitle" value="${dts.pageId}" />
+			<param type="insertionPattern" name="theme.content.text" insertionPattern="somePattern" active="sarah,lucy" inactive="mike" />
+		</page>
+		
+		<page id="genericInsertionPattern" theme="default" file="insertionPatternViaGeneric.html">
+			<param type="state" name="theme.content.title" state="contentTitle" value="${dts.pageId}" />
+			<param type="complex" name="theme.content.text">
+				${dts.insertionPattern:insertionPattern=somePattern,activeValue=genericActive,inactiveValue=genericInactive,
+					unreplacedValue=genericUnreplaced,sarah=1,lucy=1,mike=0}
+			</param>
+		</page>
+	</pages>
+	
+	<!-- States deliver different values depending on a condition. -->
+	<states>
+		<!-- 
+			This state maps the padeId to a more readable title. As you can see there is no value for index given, 
+			we're using default here. Otherwise (if no condition and no default found) an exception will be thrown!
+		 -->
+		<state id="contentTitle" cropCData="1">
+			<pre><![CDATA[<p>]]></pre>
+			<post><![CDATA[</p>]]></post>
+			<default>Some-Page</default>
+			<condition value="paramAndGenericState">The State Page</condition>
+			<condition value="paramPageInclude">Page Include (Parameter)</condition>
+			<condition value="genericPageInclude">Page Include (Generic)</condition>
+			<condition value="paramXslt">XSLT (Parameter)</condition>
+			<condition value="genericXslt">XSLT (Generic)</condition>
+			<condition value="other">Another-Page</condition>
+		</state>
+	</states>
+	
+	<!-- InsertionPatterns provide some sort of subtemplating mechanism -->
+	<insertionPatterns>
+		<!--
+			 This InsertionPatterns lists some persons and sets like/don't like/ don't know as
+			 value for the insertionPoints.
+			 
+			 Note that insertionPoints must be defined with # as prefix, because we don't want name
+			 possible clashes with generics. 
+		 -->
+		<insertionPattern id="somePattern" cropCData="1">
+			<defaultActiveInsertion>like</defaultActiveInsertion>
+			<defaultInactiveInsertion>don't like</defaultInactiveInsertion>
+			<defaultUnreplacedInsertion>don't know</defaultUnreplacedInsertion>
+			<data>
+				<p>${dts.currentDate:type=current,format=yyyy/MM/dd HH:mm:ss.SSS}</p>
+				<ul>
+					<li>Peter: #{peter}</li>
+					<li>Sarah: #{sarah}</li>
+					<li>Mike: #{mike}</li>
+					<li>Lucy: #{lucy}</li>
+				</ul>
+			</data>
+		</insertionPattern>
+	</insertionPatterns>
+</dynamicTemplateSystem>

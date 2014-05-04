@@ -1,0 +1,114 @@
+/* kill all standard margins/paddings */
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+/* make elements 100% height so they can take columns */
+html, body, #centerContainer {
+  min-height: 450px;
+  height: 450px;
+  
+  /* no scrollbar in ie */
+  overflow: hidden;
+}
+
+/* column-definition for ie */
+* html .column {
+  min-height: 450px;
+  height: 450px;
+  
+  float: left;
+}
+
+/* column-definition for firefox */
+.column {
+  min-height: 450px;
+  height: 450px;
+  
+  float: left;
+}
+
+/* concrete containers */
+#left {
+  margin-top: 60px;
+  background-color: #C0C0A0;
+  width: 20%;
+}
+
+#innerLeft {
+  margin-top: 35px;
+  background-color: #9C9A69;
+  width: 2%;
+}
+
+#center {
+  margin-top: 20px;
+  background-color: #C0C0A0;
+  width: 76%;
+  
+  overflow: scroll;
+}
+
+#innerRight {
+  margin-top: 35px;
+  background-color: #9C9A69;
+  width: 2%;
+}
+
+#centerContainer {
+  margin: 0px auto 0px auto;
+  padding: 0px auto 0px auto;
+  width: 980px;
+}
+
+#contenContainert {
+  padding-left: 10px;
+}
+	
+/* helper */
+.clearer {
+  clear: both;
+}
+
+/* *** Texts *** */
+h1 {
+  font-size: 16pt;
+  text-align: center;
+}
+
+h2 {
+  font-size: 14pt;
+  text-align: center;
+}
+
+h3 {
+  font-size: 12pt;
+  text-align: left;
+}
+
+p {
+  font-size: 12pt;
+  text-align: left;
+}
+
+/* *** Lists *** */
+ul, ol {
+  margin: 5px 0px 10px 25px;
+}
+
+/* *** Rows *** */
+.headerRow {
+  margin-top: 25px;
+  margin-bottom: 5px;
+}
+
+.subHeaderRow {
+  margin-top: 10px;
+  margin-bottom: 10px; 
+}
+
+.contentRow {
+  margin-top: 10px;
+  margin-bottom: 10px; 
+}

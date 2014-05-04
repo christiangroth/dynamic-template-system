@@ -1,0 +1,576 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>		
+		<title>DTS - Dynamic Template System</title>
+		<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+		
+		<meta http-equiv="pragma" content="no-cache" />
+		<meta http-equiv="cache-control" content="no-cache" />
+		<meta http-equiv="expires" content="0" />
+		<meta http-equiv="language" content="de" />
+		
+		<meta name="description" content="The Dynamic Template System is a java and xml based system to generate any kind of content, from xhtml to plain text." />
+		<meta name="keywords" content="Dynamic Template System,DTS,Java,XML,XSL,XSLT,Template System,Template,Templating" />
+		<meta name="page-topic" content="Dynamic Template System,Java,XML,XSL,XSLT,Templating" />
+		<meta name="robots" content="index,follow" />
+		<meta name="revisit-after" content="14 days" />
+		
+		<meta name="author" content="Christian Groth" />
+		<meta name="publisher" content="Christian Groth" />
+		<meta name="copyright" content="Christian Groth" />
+		
+		<meta name="date" content="2009-01-12" />
+		
+		<link type="text/css" href="styles/basic.css" rel="stylesheet"/>
+		<link type="text/css" href="styles/menu.css" rel="stylesheet"/>
+		<link type="text/css" href="styles/content.css" rel="stylesheet"/>
+		<script type="text/javascript" src="javascript/externalLinks.js"></script>
+	</head>
+	<body>
+		<div id="centerContainer">
+			<div id="left" class="column">
+				<div class="contentRow">
+					<h2>Main</h2>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="download.html">Download</a></li>
+						<li><a href="changelog.html">Changelog</a></li>
+						<li><a href="roadmap.html">Roadmap</a></li>
+					</ul>
+				</div>
+				<div class="contentRow">
+					<h2>Documentation</h2>
+					<ul>
+						<li><a href="usersguide.pdf" rel="external">Users-Guide</a></li>
+						<li><a href="developersguide.pdf" rel="external">Developers-Guide</a></li>
+					</ul>
+				</div>
+			</div>
+			<div id="innerLeft" class="column">
+			
+			</div>
+			<div id="center" class="column">
+				<div id="contenContainert">
+					<div id="changelog">
+<h1>2009.01.12 - v0.98:</h1>
+<div class="changelogParameter">
+<p class="title">ParameterTypePropertyReader</p>
+<span class="changelogParameterBody">
+<p>reads a properties-file and prints out the value to the given key</p>
+<p>&lt;param name="..." type="..." propertyFile="foo" propertyKey="bar" /&gt;</p>
+</span>
+</div>
+<div class="changelogGeneric">
+<p class="title">GenericTypeFileContent</p>
+<span class="changelogGenericBody">
+<p>${...:file=foo}</p>
+</span>
+</div>
+<div class="changelogGeneric">
+<p class="title">GenericTypeState</p>
+<span class="changelogGenericBody">
+<p>${...:state=foo,value=bar}</p>
+</span>
+</div>
+<div class="changelogGeneric">
+<p class="title">GenericTypePageInclude</p>
+<span class="changelogGenericBody">
+<p>${...:page=foo}</p>
+</span>
+</div>
+<div class="changelogDto">
+<p class="title">Insertion Pattern</p>
+<span class="changelogDtoBody">
+<ul>
+					<li>different templating syntax: ${} can't be used because you also want to use generics in this snippets!!</li>
+					<li>for inerstion-points you have to use another character instead of "$". We use: "#"</li>
+					<li>useful to have a helper which invokes generics and insertion points so the prefix might be a parameter</li>
+				</ul>
+<p>
+					&lt;insertionPattern id="foo" cropCData="1|0"&gt;
+						&lt;defaultActiveInsertion&gt;bar&lt;/defaultActiveInsertion&gt;
+						&lt;defaultInactiveInsertion&gt;boo&lt;/defaultInactiveInsertion&gt;
+						&lt;defaultUnreplacedInsertion&gt;far&lt;/defaultUnreplacedInsertion&gt;
+						&lt;data&gt;...&lt;/data&gt;
+					&lt;/insertionPattern&gt;
+				</p>
+</span>
+<div class="changelogParameter">
+<p class="title">ParameterTypeInsertionPattern</p>
+<span class="changelogParameterBody">
+<p>&lt;param type="insertionPattern" name="..." insertionPattern="foo" active="home,drummer" inactive="..." activeValue="" inactiveValue="" unreplacedValue="" /&gt;</p>
+</span>
+</div>
+<div class="changelogGeneric">
+<p class="title">GenericTypeInsertionPattern</p>
+<span class="changelogGenericBody">
+<p>${genericName:insertionPattern=...,activeValue=...,inactiveValue=...,unreplacedValue=...,bar=1|0,home=1,drummer=1}</p>
+</span>
+</div>
+</div>
+<div class="changelogFeature">
+<p class="title">XSL-Transformations</p>
+<span class="changelogFeatureBody"/>
+<div class="changelogParameter">
+<p class="title">ParameterTypeXslt</p>
+<span class="changelogParameterBody">
+<p>&lt;param type="..." name="..." xml="foo" xsl="bar" /&gt;</p>
+</span>
+</div>
+<div class="changelogGeneric">
+<p class="title">GenericTypeXslt</p>
+<span class="changelogGenericBody">
+<p>${...:xml=foo,xsl=bar}</p>
+</span>
+</div>
+</div>
+<div class="changelogFeature">
+<p class="title">Theme Inheritance</p>
+<span class="changelogFeatureBody">
+<ul>
+					<li>you can define the attribute superThemeId for a theme, referencing another theme by id</li>
+					<li>if you define a super-theme you must not define the template file!</li>
+					<li>take care you don't create circular dependencies!</li>
+				</ul>
+</span>
+</div>
+<div class="changelogFeature">
+<p class="title">Last convert/export date now saved per page!!</p>
+<span class="changelogFeatureBody"/>
+</div>
+<div class="changelogFeature">
+<p class="title">Parameters and Generics might be marked as non deterministiclast</p>
+<span class="changelogFeatureBody"/>
+</div>
+<p class="title">Refactored</p>
+<ul>
+<li>consistent naming and packaging of parameter, generics and processings</li>
+<li>architecture and api</li>
+<li>xml-handling</li>
+</ul>
+<p class="title">Removed</p>
+<ul>
+<li>mainPage attribute in pages-node</li>
+<li>pageHierarchy</li>
+</ul>
+<h1>2008.02.08 - v0.85:</h1>
+<div class="changelogParameter">
+<p class="title">ParameterTypePage</p>
+<span class="changelogParameterBody">
+<ul>
+					<li>create nested pages with this type of parameter</li>
+				</ul>
+<p>&lt;param name="..." type="..." page="..." /&gt;</p>
+</span>
+</div>
+<div class="changelogGeneric">
+<p class="title">GenericTypeCurrentDate</p>
+<span class="changelogGenericBody">
+<ul>
+			 		<li>prints out the current date (while executing this generic)</li>
+					<li>you must provide a valid java date format with format attribute</li>
+			 		<li>configure the date you want to have with type attribute
+						<ul>
+				 			<li>current: standard, see above</li>
+				 			<li>convert: date, when convert-function was called</li>
+				 			<li>export: date, when export-function was called</li>
+				 			<li>exportAll: date, when exportAll-function was called (same date for all pages during exportAll)</li>
+						</ul>
+					</li>
+				</ul>
+<p>${...:format=..., type=current|convert|export|exportAll}</p>
+</span>
+</div>
+<div class="changelogGeneric">
+<p class="title">GenericTypePropertyReader</p>
+<span class="changelogGenericBody">
+<ul>
+					<li>reads a properties-file and prints out the key to the given value</li>
+				</ul>
+<p>${...:properties=...,key=...}</p>
+</span>
+</div>
+<div class="changelogFeature">
+<p class="title">default condition for state</p>
+<span class="changelogFeatureBody">
+<ul>
+					<li>added optional default condition for states (you can leave this away)</li>
+				</ul>
+</span>
+</div>
+<div class="changelogFeature">
+<p class="title">warning if unreplaced parameters/generics are found</p>
+<span class="changelogFeatureBody"/>
+</div>
+<p class="title">Removed</p>
+<ul>
+<li>removed switch-concept</li>
+<li>removed schedules</li>
+</ul>
+<p class="title">Build Management</p>
+<ul>
+<li>integrated findbugs</li>
+<li>integrated checkstyle</li>
+</ul>
+<h1>2007.12.03 - v0.77:</h1>
+<p class="title">Build Management</p>
+<ul>
+<li>integrated JavaDocGeneration</li>
+</ul>
+<h1>2007.12.03 - v0.76:</h1>
+<p class="title">Refactored</p>
+<ul>
+<li>refactored eclipse projects</li>
+</ul>
+<p class="title">Build Management</p>
+<ul>
+<li>refactored deployment units</li>
+</ul>
+<h1>2007.11.28 - v0.75:</h1>
+<div class="changelogFeature">
+<p class="title">PluginArchitecture</p>
+<span class="changelogFeatureBody">
+<ul>
+					<li>configure for each dts-file the plugins you want to load</li>
+					<li>available plugin-types are: processing, parameter, generic, switch</li>
+				</ul>
+<p>
+					&lt;plugins&gt;
+						&lt;processing key="foo" class="bar" /&gt;
+						...
+						&lt;parameter key="foo" class"bar" /&gt;
+						...
+						&lt;generic key="foo" class="bar" /&gt;
+						...
+						&lt;switch key="foo" class="bar" /&gt;
+						...
+					&lt;/plugins&gt;
+				</p>
+</span>
+</div>
+<div class="changelogFeature">
+<p class="title">Parameterized Generics</p>
+<span class="changelogFeatureBody">
+<ul>
+					<li>generics can now be parameterized with attributes
+						<ul>
+							<li>a ':' indicates following attributes up to '}'</li>
+							<li>attributes are separated by a ','</li>
+							<li>attributes are written as key/value pairs separated with '='</li>
+						</ul>
+					</li>
+					<li>unknown attributes will be ignored</li>
+					<li>in the attribute section all characters apart from '{' and '}' are allowed
+						<ul>
+							<li>even whitespace (hopefully the regex is working really correct)</li>
+						</ul>
+					</li>
+				</ul>
+<p>${some.generic.name:attribute1=value1,attribute2=value2}</p>
+</span>
+<div class="changelogFeature">
+<p class="title">New Generic Attribute for GenericTypePageDynamicPath</p>
+<span class="changelogFeatureBody">
+<ul>
+						<li>a path to other pages can be resolved with attribute page</li>
+						<li>the value must be an existing pageId of some page</li>
+						<li>if no value is given the behavior does not change (path to root will be generated)</li>
+					</ul>
+<p>${generic.name:page=someOtherPageId}</p>
+</span>
+</div>
+</div>
+<div class="changelogFeature">
+<p class="title">schedules and periods</p>
+<span class="changelogFeatureBody">
+<ul>
+					<li>you can create schedules that deliver their values dependent on current date &amp; time</li>
+					<li>for dateFormat use syntax as described in JavaDocs for java.text.SimpleDateFormat
+						<ul>
+							<li>the most recent used will probably be this one: yyyy-MM-dd HH:mm:ss</li>
+							<li>please note that a format like yyyy-MM-dd will set hour, minute and second to 0</li>
+						</ul>
+					</li>
+					<li>note that periods must not overlap!</li>
+					<li>put in dynamicTemplateSystem/schedules</li>
+				</ul>
+<p>
+					&lt;schedule id="bar" dateFormat="yyyy-MM-dd HH:mm:ss" cropCData="0|1"&gt;
+						&lt;default&gt;...&lt;/default&gt;
+						&lt;period from="" to=""&gt;...&lt;/period&gt;
+						...
+					&lt;/schedule&gt;
+				</p>
+</span>
+<div class="changelogParameter">
+<p class="title">ParameterTypeSchedule</p>
+<span class="changelogParameterBody">
+<p>&lt;param name="foo" type="schedule"  schedule="bar" /&gt;</p>
+</span>
+</div>
+</div>
+<div class="changelogFeature">
+<p class="title">switches</p>
+<span class="changelogFeatureBody">
+<ul>
+					<li>switches can be used to toggle values for a page without redefining any parameter</li>
+					<li>so switches are some sort of special parameters</li>
+					<li>create an parameter tag and replace the tag-name "parameter" with "switch"</li>
+					<li>available switches are
+						<ul>
+							<li>&lt;switch name="foo" type="simple" value="bar" /&gt;</li>
+							<li>&lt;switch name="foo" type="complex" cropCData="1"&gt;bar&lt;/switch&gt;</li>
+							<li>&lt;switch name="foo" type="fileContent" file="bar" /&gt;</li>
+							<li>&lt;switch name="foo" type="schedule"  schedule="bar" /&gt;</li>
+							<li>&lt;switch name="foo" type="stateful" state="bar" value="foobar" /&gt;</li>
+						</ul>
+					</li>
+				</ul>
+<p>
+					&lt;switches&gt;
+						&lt;switch ... /&gt;
+						...
+					&lt;/switches&gt;
+				</p>
+</span>
+<div class="changelogParameter">
+<p class="title">ParameterTypeSwitch</p>
+<span class="changelogParameterBody">
+<p>&lt;param name="foo" type="switch" switch="bar" use="1|0" /&gt;</p>
+</span>
+</div>
+</div>
+<div class="changelogFeature">
+<p class="title">check if every page is in hierarchy, else warn</p>
+<span class="changelogFeatureBody"/>
+</div>
+<p class="title">Refactored</p>
+<ul>
+<li>BatchInvoker: deliver the following parameter: basePath, dtsFile, exportPath</li>
+<li>efactored xml-handling, dto-handling, dto-instantiation ... nearly everything</li>
+</ul>
+<p class="title">Removed</p>
+<ul>
+<li>page: removed menu-attribute</li>
+</ul>
+<h1>2007.10.01 - v0.62:</h1>
+<div class="changelogProcessing">
+<p class="title">ProcessingTypeGenerateConfig</p>
+<span class="changelogProcessingBody">
+<ul>
+					<li>generates dts config file</li>
+					<li>path: the path for export. this is relative to general export path</li>
+					<li>file: file name</li>
+				</ul>
+<p>
+					&lt;processing type="generateConfig" path="" file="" /&gt;
+				</p>
+</span>
+</div>
+<div class="changelogProcessing">
+<p class="title">ProcessingTypeCopyRessources</p>
+<span class="changelogProcessingBody">
+<ul>
+					<li>merged ProcessingCopyDir and ProcessingCopyFile</li>
+				</ul>
+</span>
+</div>
+<div class="changelogFeature">
+<p class="title">new page attribute: menu</p>
+<span class="changelogFeatureBody">
+<ul>
+					<li>flag that indicates if this is a menu page</li>
+				</ul>
+</span>
+</div>
+<div class="changelogFeature">
+<p class="title">late parameter initialization due to generics</p>
+<span class="changelogFeatureBody">
+<ul>
+					<li>only acceptable for parameter attributes other than name and type</li>
+					<li>dts.page.id: inserts current page id</li>
+					<li>dts.page.next.menu: inserts pageId for next menuPage in pageHierarchy</li>
+				</ul>
+</span>
+</div>
+<div class="changelogFeature">
+<p class="title">when trying to resolve a stateValue with unknown condition or empty value an exception is thrown. So no unnoticed null or empty values are proceeded.</p>
+<span class="changelogFeatureBody"/>
+</div>
+<p class="title">Refactored</p>
+<ul>
+<li>reading page parameters</li>
+</ul>
+<h1>2007.09.17 - v0.52:</h1>
+<div class="changelogGeneric">
+<p class="title">GenericTypeGenerateConfig</p>
+<span class="changelogGenericBody">
+<ul>
+					<li>generating new config-file</li>
+				</ul>
+</span>
+</div>
+<div class="changelogFeature">
+<p class="title">CData cropping</p>
+<span class="changelogFeatureBody">
+<ul>
+					<li>if using CData in pre, post or condition the value in templates can be without the CData-tags</li>
+					<li>use xml-attribute cropCData with values 1, y or yes</li>
+				</ul>
+</span>
+<div class="changelogParameter">
+<p class="title">ParameterTypeComplex</p>
+<span class="changelogParameterBody">
+<ul>
+						<li>reading the parameter value from xml body content</li>
+						<li>if using CData the exported value in templates can be without the CData-tags</li>
+						<li>use xml-attribute cropCData with values 1, y or yes</li>
+					</ul>
+</span>
+</div>
+</div>
+<div class="changelogFeature">
+<p class="title">definition of page hierarchy</p>
+<span class="changelogFeatureBody"/>
+</div>
+<h1>2007.09.14 - v0.50:</h1>
+<div class="changelogFeature">
+<p class="title">generics</p>
+<span class="changelogFeatureBody">
+<p>Generics are replaced after all other parameters have been processed. The value is computed by current page, 
+				theme and overall attributes.</p>
+</span>
+<div class="changelogGeneric">
+<p class="title">GenericPageDynamicPath</p>
+<span class="changelogGenericBody">
+<ul>
+						<li>inserts some '../' depending on the depth of page output file</li>
+						<li>a page in a/b.html would procude ../</li>
+						<li>a page in a/b/c.html would procude ../../</li>
+						<li>a page a.html would produce nothing</li>
+					</ul>
+</span>
+</div>
+</div>
+<div class="changelogFeature">
+<p class="title">Pre/Post Processings</p>
+<span class="changelogFeatureBody">
+<ul>
+					<li>Processings can be run before/after exportAll</li>
+				</ul>
+</span>
+<div class="changelogProcessing">
+<p class="title">ProcessingCopyFile</p>
+<span class="changelogProcessingBody">
+<ul>
+						<li>copies a file</li>
+						<li>pathFrom is relative to your xml</li>
+						<li>pathTo is relative to your export folder</li>
+					</ul>
+<p>&lt;processing type="copyFile" pathFrom="" pathTo="" /&gt;</p>
+</span>
+</div>
+<div class="changelogProcessing">
+<p class="title">ProcessingCopyDirectory</p>
+<span class="changelogProcessingBody">
+<ul>
+						<li>copies a directory with its content</li>
+						<li>pathFrom is relative to your xml</li>
+						<li>pathTo is relative to your export folder</li>
+					</ul>
+<p>&lt;processing type="copyDir" pathFrom="" pathTo="" /&gt;</p>
+</span>
+</div>
+<div class="changelogProcessing">
+<p class="title">ProcessingClearDirectory</p>
+<span class="changelogProcessingBody">
+<ul>
+						<li>clears all content in directory</li>
+						<li>path is relative to your export folder</li>
+					</ul>
+<p>&lt;processing type="clearDir" path="" /&gt;</p>
+</span>
+</div>
+<div class="changelogProcessing">
+<p class="title">ProcessingDeleteFile</p>
+<span class="changelogProcessingBody">
+<ul>
+						<li>deletes a file</li>
+						<li>path is relative to your export folder</li>
+					</ul>
+<p>&lt;processing type="copyFile" path="" /&gt;</p>
+</span>
+</div>
+<div class="changelogProcessing">
+<p class="title">ProcessingDeleteDirectory</p>
+<span class="changelogProcessingBody">
+<ul>
+						<li>deletes a directory with its content</li>
+						<li>path is relative to your export folder</li>
+					</ul>
+<p>&lt;processing type="copyDir" path="" /&gt;</p>
+</span>
+</div>
+</div>
+<div class="changelogFeature">
+<p class="title">pre/post-values for states</p>
+<span class="changelogFeatureBody">
+<ul>
+					<li>define one pre and/or post node for a state</li>
+					<li>these values are put before/after each condition value while processing</li>
+				</ul>
+</span>
+</div>
+<div class="changelogFeature">
+<p class="title">a page may only overwrite parameters defined in referenced theme</p>
+<span class="changelogFeatureBody"/>
+</div>
+<h1>2007.09.11 - v0.41:</h1>
+<div class="changelogParameter">
+<p class="title">ParameterTypeStateful</p>
+<span class="changelogParameterBody"/>
+</div>
+<div class="changelogParameter">
+<p class="title">ParameterTypeFileContent</p>
+<span class="changelogParameterBody"/>
+</div>
+<div class="changelogDto">
+<p class="title">State</p>
+<span class="changelogDtoBody"/>
+<div class="changelogParameter">
+<p class="title">ParameterTypeState</p>
+<span class="changelogParameterBody"/>
+</div>
+</div>
+<h1>2007.08.13 - v0.40:</h1>
+<div class="changelogFeature">
+<p class="title">initial implementation</p>
+<span class="changelogFeatureBody"/>
+</div>
+<div class="changelogFeature">
+<p class="title">using themes, pages and parameters</p>
+<span class="changelogFeatureBody"/>
+</div>
+<div class="changelogFeature">
+<p class="title">simple and complex parameter type</p>
+<span class="changelogFeatureBody"/>
+</div>
+<div class="changelogFeature">
+<p class="title">page parameters overwrite theme parameters</p>
+<span class="changelogFeatureBody"/>
+</div>
+<div class="changelogFeature">
+<p class="title">dynamically convert pages or export/exportAll pages</p>
+<span class="changelogFeatureBody"/>
+</div>
+</div>
+
+				</div>
+			</div>
+			<div id="innerRight" class="column">
+			
+			</div>
+			<br class="clearer" />
+		</div>
+	</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>FindBugs Report</title>
+<style type="text/css">
+		.tablerow0 {
+			background: #EEEEEE;
+		}
+
+		.tablerow1 {
+			background: white;
+		}
+
+		.detailrow0 {
+			background: #EEEEEE;
+		}
+
+		.detailrow1 {
+			background: white;
+		}
+
+		.tableheader {
+			background: #b9b9fe;
+			font-size: larger;
+		}
+
+		.tablerow0:hover, .tablerow1:hover {
+			background: #aaffaa;
+		}
+
+		.priority-1 {
+		    color: red;
+		    font-weight: bold;
+		}
+		.priority-2 {
+		    color: orange;
+		    font-weight: bold;
+		}
+		.priority-3 {
+		    color: green;
+		    font-weight: bold;
+		}
+		.priority-4 {
+		    color: blue;
+		    font-weight: bold;
+		}
+		</style>
+<script type="text/javascript">
+			function toggleRow(elid) {
+				if (document.getElementById) {
+					element = document.getElementById(elid);
+					if (element) {
+						if (element.style.display == 'none') {
+							element.style.display = 'block';
+							//window.status = 'Toggle on!';
+						} else {
+							element.style.display = 'none';
+							//window.status = 'Toggle off!';
+						}
+					}
+				}
+			}
+		</script>
+</head>
+<body>
+<h1>
+<a href="http://findbugs.sourceforge.net">FindBugs</a> Report</h1>
+<h2>Project Information</h2>
+<p>Project: 
+		&lt;&lt;unnamed project&gt;&gt;</p>
+<p>FindBugs version: 1.3.1</p>
+<p>Code analyzed:</p>
+<ul>
+<li>D:\Eigene Dateien\DynamicTemplateSystem\dist\TRUNK\dts-api-TRUNK.jar</li>
+<li>D:\Eigene Dateien\DynamicTemplateSystem\dist\TRUNK\dts-impl-TRUNK.jar</li>
+<li>D:\Eigene Dateien\DynamicTemplateSystem\dist\TRUNK\dts-plugins-TRUNK.jar</li>
+</ul>
+<p>
+<br/>
+<br/>
+</p>
+<h2>Metrics</h2>
+<p>3496 lines of code analyzed,
+	in 133 classes, 
+	in 33 packages.</p>
+<table width="500" cellpadding="5" cellspacing="2">
+<tr class="tableheader">
+<th align="left">Metric</th>
+<th align="right">Total</th>
+<th align="right">Density*</th>
+</tr>
+<tr class="tablerow0">
+<td>High Priority Warnings</td>
+<td align="right"/>
+<td align="right">NaN</td>
+</tr>
+<tr class="tablerow1">
+<td>Medium Priority Warnings</td>
+<td align="right"/>
+<td align="right">NaN</td>
+</tr>
+<tr class="tablerow1">
+<td>Low Priority Warnings</td>
+<td align="right">1</td>
+<td align="right">0.29</td>
+</tr>
+<tr class="$totalClass">
+<td>
+<b>Total Warnings</b>
+</td>
+<td align="right">
+<b>1</b>
+</td>
+<td align="right">
+<b>0.29</b>
+</td>
+</tr>
+</table>
+<p>
+<i>(* Defects per Thousand lines of non-commenting source statements)</i>
+</p>
+<p>
+<br/>
+<br/>
+</p>
+<h2>Contents</h2>
+<ul>
+<li>
+<a href="#Warnings_STYLE">Dodgy Warnings</a>
+</li>
+<li>
+<a href="#Details">Details</a>
+</li>
+</ul>
+<h1>Summary</h1>
+<table width="500" cellpadding="5" cellspacing="2">
+<tr class="tableheader">
+<th align="left">Warning Type</th>
+<th align="right">Number</th>
+</tr>
+<tr class="tablerow0">
+<td>
+<a href="#Warnings_STYLE">Dodgy Warnings</a>
+</td>
+<td align="right">1</td>
+</tr>
+<tr class="tablerow1">
+<td>
+<b>Total</b>
+</td>
+<td align="right">
+<b>1</b>
+</td>
+</tr>
+</table>
+<h1>Warnings</h1>
+<p>Click on a warning row to see full context information.</p>
+<h2>
+<a name="Warnings_STYLE">Dodgy Warnings</a>
+</h2>
+<table class="warningtable" width="100%" cellspacing="0">
+<tr class="tableheader">
+<th align="left">Code&amp;nbsp;</th>
+<th align="left">Warning</th>
+</tr>
+<tr class="tablerow1" onclick="toggleRow('N65567');">
+<td>
+<span class="priority-3">XFB</span>
+</td>
+<td>Method de.groth.dts.plugins.processings.ProcessingTypeGenerateConfig.process(DynamicTemplateSystemExecutionContext) directly allocates a specific implementation of xml interfaces</td>
+</tr>
+<tr class="detailrow1">
+<td/>
+<td>
+<p id="N65567" style="display: none;">
+<a href="#XFB_XML_FACTORY_BYPASS">Bug type XFB_XML_FACTORY_BYPASS (click for details)</a>
+<br/>In class de.groth.dts.plugins.processings.ProcessingTypeGenerateConfig<br/>In method de.groth.dts.plugins.processings.ProcessingTypeGenerateConfig.process(DynamicTemplateSystemExecutionContext)<br/>At ProcessingTypeGenerateConfig.java:[line 155]</p>
+</td>
+</tr>
+</table>
+<h1>
+<a name="Details">Details</a>
+</h1>
+<h2>
+<a name="XFB_XML_FACTORY_BYPASS">XFB_XML_FACTORY_BYPASS: Method directly allocates a specific implementation of xml interfaces</a>
+</h2>
+      
+      <p>
+      This method allocates a specific implementation of an xml interface. It is preferable to use
+      the supplied factory classes to create these objects so that the implementation can be
+      changed at runtime. See
+      </p>
+      <ul>
+         <li>javax.xml.parsers.DocumentBuilderFactory</li>
+         <li>javax.xml.parsers.SAXParserFactory</li>
+         <li>javax.xml.transform.TransformerFactory</li>
+         <li>org.w3c.dom.Document.create<i>XXXX</i></li>
+      </ul>
+      <p>for details.</p>
+      
+    </body>
+</html>

@@ -1,0 +1,38 @@
+<?xml version='1.0' ?> 
+<project name="DynamicTemplateSystem" default="build" basedir=".">
+	<property name="dir.src" value="src" />
+	<property name="dir.temp" value="temp" />
+	<property name="dir.lib" value="lib" />
+	<property name="file.dist.compiled" value="additional.jar" />
+	
+	<path id="classpath">
+		<fileset dir="${dir.lib}" includes="**/*.jar"/>
+	</path>
+	
+	<!-- clean -->
+	<target name="clean">
+		<delete dir="${dir.dist}/${file.dist.compiled}" />
+	</target>
+	
+	<!-- Build: dts.core -->
+	<target name="build" depends="clean">
+		<mkdir dir="${dir.temp}"/>
+		<copy todir="${dir.temp}">
+			<fileset dir=".">
+				<include name="${dir.src}/**/*.*" />
+			</fileset>
+		</copy>
+		<javac srcdir="${dir.src}" destdir="${dir.temp}">
+			<classpath>
+				<path refid="classpath"/>
+            </classpath>
+		</javac>
+		<jar jarfile="${dir.lib}/${file.dist.compiled}">
+			<fileset dir="${dir.temp}">
+				<include name="**/*.*" />
+			</fileset>
+		</jar>
+		
+		<delete dir="${dir.temp}" />
+	</target>
+</project>

@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE article [
+	<!ENTITY dts "Dynamic Template System">
+]>
+<book version="5.0" xml:lang="en" xmlns="http://docbook.org/ns/docbook"
+      xmlns:xl="http://www.w3.org/1999/xlink"
+      xmlns:ns5="http://www.w3.org/1998/Math/MathML"
+      xmlns:ns4="http://www.w3.org/1999/xhtml"
+      xmlns:ns3="http://www.w3.org/2000/svg"
+      xmlns:ns="http://docbook.org/ns/docbook">
+	<info>
+		<title>&dts; - Developers Guide</title>
+		<subtitle>How to plug in the world</subtitle>
+		<authorgroup>
+			<author>
+				<personname>Christian Groth</personname>
+				<email>kontakt@christian-groth.info</email>
+			</author>
+		</authorgroup>
+		
+		<pubdate>2009-01-12</pubdate>
+	</info>
+	
+	<chapter xml:id="introduction">
+		<title>Preface</title>
+		<para>This guide deals with the internals of the &dts;, so that you might get the idea of the work behind the scenes. Although
+		you'll get the basics to create your own plugins if you want to customize the &dts; to your own needs.</para>
+		
+		<section xml:id="introduction_usersguide">
+			<title>Usersguide</title>
+			<para>At first you must (of course) understand the &dts; itself and how it is supposed to be used. Take a really close look
+			at the usersguide. All basic information, concepts amd build-in plugins are discussed there. So if you do not understand
+			the usersguide, don't even try to grad the developers guide and code your own stuff.</para>
+		</section>
+		<section xml:id="introduction_technologies">
+			<title>What technologies and/or tools do I need?</title>
+			<para>Let's cover this aspect from the way I (personally) develop the &dts;. I'm using the following technologies and tools
+			for my developmnt environment:</para>
+			
+			<itemizedlist>
+				<listitem>Java SDK 1.5</listitem>
+				<listitem>Ant 1.7</listitem>
+				<listitem>Eclipse 3.3</listitem>
+				<listitem>dom4j-1.6.1</listitem>
+				<listitem>jaxen-1.1 and jaxme-api0.3</listitem>
+				<listitem>log4j-1.2.14</listitem>
+				<listitem>checkstyle 4.4</listitem>
+				<listitem>findbugs 1.3.1</listitem>
+				<listitem>docbook 5.0 schema with docbook-xsl-1.74.0</listitem>
+				<listitem>saxon-6.5.5 and fop-0.95</listitem>
+				<listitem>jing-20030619</listitem>
+			</itemizedlist>
+			
+			<para>Wow ... as you can see there is a lot of stuff involved to develop and document the &dts;. But let's focus on the
+			situation that you just want to develop a new plugin. You need the following:</para>
+			
+			<itemizedlist>
+				<listitem>Java SDK, at least version 1.5</listitem>
+				<listitem>the dts-api.jar out of release your currently working with</listitem>
+				<listitem>some java editor or eclipse</listitem>
+				<listitem>dom4j and log4j libraries out of the dts release your working with</listitem>
+			</itemizedlist>
+			
+			<para>Now you can start to set up a nice development environment. The next chapters will conver the &dts; API, followed
+			by the standard implementation and the plugins package. The final chapter will deal with the fact how to develop an
+			own plugin and get it running.</para>
+			
+			<para>The following chapters will take a closer look on the java packages and java sources, so be sure to download
+			the dts sources, so you can also take a look at it.</para>
+		</section>
+	</chapter>
+	
+	<chapter xml:id="dtsApi">
+		<title>API</title>
+		<para>To understand how the &dts; works internally, we take a closer look at the API package. This package is split up
+		into two main java-packages.</para>
+		
+		<orderedlist>
+			<listitem>de.groth.dts.api.core</listitem>
+			<listitem>de.groth.dts.api.xml</listitem>
+		</orderedlist>
+		
+		<para>The xml package contains all information you need to implement the xml import and export from and to the dts xml
+		project file, but we focus on the core package first.</para>
+		
+		<para>This package reveals two main concepts in this project:</para>
+		
+		<orderedlist>
+			<listitem>contexts</listitem>
+			<listitem>instances of IDtsDto</listitem>
+		</orderedlist>
+		
+		<para>Wihle different (mostly read only) contexts for diffenet situations are nothing special, the representation of
+		the dts xml project file or its defined 'objects' like pages, themes, etc. are quite handy. They're defined by an 
+		interface extending the IDtsDto. So every object that 'is part of' the &dts; will implement IDtsDto, every page, every
+		theme and even every parameter, processing or generic.</para>
+		
+		<para>The following class diagramm illustrates the IDtsDto hierarchy:</para>
+		<para />
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/developersguide/IdtsDtoClassDiagram.png" format="png" 
+					contentwidth="19cm" width="19cm" scalefit="0" align="center" />
+			</imageobject>
+		</mediaobject>
+		
+		<para>As you can see in the 'plugin area' of the class diagram, there are some abstract classes defined handling the
+		basics for each type of plugin. We won't discuss all methods of fields here, if you need help on such a detailed level
+		please take a look at the javadocs or just concat me.</para>
+		
+		<para>The following table give you a short description to each type in the IDtsDto hierarchy:</para>
+			
+		<table>
+			<caption>IDtsDto Classes</caption>
+			<colgroup>
+				<col width="40%" />
+				<col width="60%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>name</td>
+					<td>description</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+			    	<td>IDtsDto</td>
+			    	<td>Marker interface for all classes representing information from the dts xml file, like themes, pages,
+			    	plugins, etc.</td>
+				</tr>
+				<tr>
+			    	<td>IDynamicTemplateSystemBase</td>
+			    	<td>Holds the basic information about the &dts; like th epath to the xml, name and id of the project and 
+			    	all registered plugins. This class is also the base class for IDynamicTemplateSystemProxy and IDynamicTemplateSystem.</td>
+			    </tr>
+				<tr>
+			    	<td>IDynamicTemplateSystemProxy</td>
+			    	<td>A proxy class used during xml import because IDynamicTemplateSystem may only be instantiated giving all information
+			    	to the constructor. No problem so far, but we need the plugins to be registered so they might be instantiated as well.
+			    	Therefore we use the IDynamicTemplateSystemProxy.</td>
+				</tr>
+				<tr>
+			    	<td>IDynamicTemplateSystem</td>
+			    	<td>An instance of this objects represents your dts xml file. IDynamicTemplateSystem (or its references) holds all 
+			    	information from the xml file.</td>
+				</tr>
+				<tr>
+			    	<td>ITheme</td>
+			    	<td>Represents a xml theme definition.</td>
+				</tr>
+				<tr>
+			    	<td>IPage</td>
+			    	<td>Represents a xml page definition.</td>
+				</tr>
+				<tr>
+			    	<td>IState</td>
+			    	<td>Represents a xml state definition.</td>
+				</tr>
+				<tr>
+			    	<td>IInsertionPattern</td>
+			    	<td>Represents a xml insertion pattern definition.</td>
+				</tr>
+				<tr>
+			    	<td>IPlugin</td>
+			    	<td>Defines the basic interface for all types of plugins.</td>
+				</tr>
+				<tr>
+			    	<td>IParameter</td>
+			    	<td>Defines the basic interface for all parameter types.</td>
+				</tr>
+				<tr>
+			    	<td>ILazyInitializationCapable</td>
+			    	<td>Defines the basic interface for all lazy initialization capable parameter types. A parameter is called
+			    	capable of lazy initialization if it allows to contain generics in its attributes. If generics are found
+			    	they are processed at runtime (lazily) so the parameter gets its final values.</td>
+				</tr>
+				<tr>
+			    	<td>IGeneric</td>
+			    	<td>Defines the basic interface for all generictypes.</td>
+				</tr>
+				<tr>
+					<td>NonDeterministic</td>
+					<td>Annotation which is used to mark an implementation of IParameter or IGeneric as non deterministic.</td>
+				</tr>
+				<tr>
+			    	<td>IProcessing</td>
+			    	<td>Defines the basic interface for all processing types.</td>
+				</tr>
+				<tr>
+			    	<td>AbstractPlugin</td>
+			    	<td>Class implementing IPlugin.</td>
+				</tr>
+				<tr>
+			    	<td>PluginTypeParameter</td>
+			    	<td>Extending AbstractPlugin without implemeting any other parameter specific interfaces. So this class represents
+			    	only a plugin definition (cause IParameter is not implemented here).</td>
+				</tr>
+				<tr>
+			    	<td>AbstractParameter</td>
+			    	<td>Extending PluginTypeParameter and implementing IParameter, so this one represents a parameter definition in xml.</td>
+				</tr>
+				<tr>
+			    	<td>LazyInitializationParameter</td>
+			    	<td>Extending AbstractParameter and implementing ILazyInitializationCapable for all lazy initialization capable parameters.</td>
+				</tr>
+				<tr>
+			    	<td>PluginTypeGeneric</td>
+			    	<td>Extending AbstractPlugin without implemeting any other generic specific interfaces. So this class represents
+			    	only a plugin definition (cause IGeneric is not implemented here).</td>
+				</tr>
+				<tr>
+			    	<td>AbstractGeneric</td>
+			    	<td>Extending PluginTypeGeneric and implementing IGeneric, so this one represents a generic definition somwhere in xml
+			    	or other included an dprocessed files.</td>
+				</tr>
+				<tr>
+			    	<td>PluginTypeProcessing</td>
+			    	<td>Extending AbstractPlugin without implemeting any other processing specific interfaces. So this class represents
+			    	only a plugin definition (cause IProcessing is not implemented here).</td>
+				</tr>
+				<tr>
+			    	<td>AbstractProcessing</td>
+			    	<td>Extending PluginTypeProcessing and implementing IProcessing, so this one represents a processing definition in xml.</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<section xml:id="dtsImpl_pluginsVsConcretes">
+			<title>Plugins vs. Concrete Instances</title>
+			<para>Until know you know that there are plugins which can be of type parameter, generic and processing. But keep in mind the
+			following: In context of &dts; a plugin defines just a type of what is plugged in. A concrete instance is
+			of a plugin type is much more than just a plugin. The instance defines behavior.</para>
+		</section>
+		
+		<section xml:id="dtsApi_contexts">
+			<title>Contexts</title>
+			<para>Let's take a quick look at the context classes. As you already might have noticed they're also structured hierarchically.</para>
+			<para />
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/developersguide/ContextsClassDiagram.png" format="png" 
+						contentwidth="15cm" width="15cm" scalefit="0" align="center" />
+				</imageobject>
+			</mediaobject>
+			
+			<para>The following table gives you a short description to each context and it's usage:</para>
+			
+			<table>
+				<caption>&dts; Contexts</caption>
+				<colgroup>
+					<col width="50%" />
+					<col width="50%" />
+				</colgroup>
+				<thead>
+					<tr>
+						<td>name</td>
+						<td>description</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+				    	<td>PathContext</td>
+				    	<td>The PathContext is holding all path information like the basePath, the exportPath and the path to the dts xml.</td>
+					</tr>
+					<tr>
+				    	<td>PlugininstantiationContext</td>
+				    	<td>This context is used during instantiation of plugins. As you will see later the plugins are instantiated using a
+				    	helper factory. So this context will contain the plugin key and class name information, some optional attributes (as a map),
+				    	the current xml node, an instance of IDynamicTemplateSystemBase and an instance of the currently used IConverter.</td>
+				    </tr>
+					<tr>
+				    	<td>ProcessingContext</td>
+				    	<td>The ProcessingContext is used by all instances of IProcessing and holds the current instance of IDynamicTemplateSystem.</td>
+					</tr>
+					<tr>
+				    	<td>DynamicTemplateSystemExecutionContext</td>
+				    	<td>This context is used for all operations during conversion of any page, so you always have a concrete page processed.
+				    	This page is hold by the context.</td>
+					</tr>
+					<tr>
+				    	<td>GenericContext</td>
+				    	<td>The GenericCOntext is used during conversion of generics, holding the source string, all generic plugins to be 
+				    	called and all generic attributes.</td>
+					</tr>
+					<tr>
+				    	<td>ParameterContext</td>
+				    	<td>The ParameterContext does not hold any more information than the DynamicTemplateSystemExecutionContext, but
+				    	implements the IGenericContextProvider. This means that it can be used to generate a new GenericContext.</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+		
+		<para>Now that you know all the 'data objects' and their meaning there are just a few things missing to paint the
+		big picture:</para>
+		
+		<itemizedlist>
+			<listitem>someone has to do the work</listitem>
+			<listitem>the xml import and export</listitem>
+		</itemizedlist>
+		
+		<section xml:id="dtsApi_invokerConverter">
+			<title>Invoker and Converter, the ones that do the work</title>
+			<para>Up to now there were only a lot of classes and interfaces which build up the data model, mostly just plain POJOs. Of course
+			there have to be some classes which might do something, process the data, convert the pages and write the output files.</para>
+			
+			<para>In general there are two classes / interfaces which define the work to be done:</para>
+			
+			<orderedlist>
+				<listitem>IInvoker: handles the user interaction (e. g. from command-line)</listitem>
+				<listitem>IConverter: handles the data transformation and export</listitem>
+			</orderedlist>
+			
+			<para>So you can say an instance of IInvoker uses an IConverter to satisfy the user. Sounds easy uh?</para>
+			
+			<section xml:id="dtsApi_invoker">
+				<title>IInvoker</title>
+				<para>As you already know from the usersguide the IInvoker interface defines three methods to:</para>
+				
+				<itemizedlist>
+					<listitem>convert a single page</listitem>
+					<listitem>export a single page</listitem>
+					<listitem>export all pages</listitem>
+		        </itemizedlist>
+				
+				<para>To each of these methods there is a supportsXXX() method, so you can also implement in IInvoker without
+				implementing all of those three functionalities (in fact the BatchInvoker does this).</para>
+				
+				<itemizedlist>
+					<listitem>supportsConvert()</listitem>
+					<listitem>convert(String)</listitem>
+					<listitem>supportsExport()</listitem>
+					<listitem>export(String)</listitem>
+					<listitem>supportsExportAll()</listitem>
+					<listitem>exportAll()</listitem>
+		        </itemizedlist>
+		        
+				<para>The last two methods are used to initialize your instance (mainly you would create the IConverter here)
+				and to check if the initialization was done properly.</para>
+				
+				<itemizedlist>
+					<listitem>initialize()</listitem>
+					<listitem>isInitialized()</listitem>
+		        </itemizedlist>
+			</section>
+			
+			<section xml:id="dtsApi_converter">
+				<title>IConverter</title>
+				<para>If you know what functionalities an IInvoker may support and that an IInvoker uses an IConverter to really
+				do something, you won't be suprised about the following interface definition of IConverter:</para>
+				
+				<itemizedlist>
+					<listitem>isInitialized()</listitem>
+					<listitem>loadXml()</listitem>
+					<listitem>convert(String)</listitem>
+					<listitem>export(String)</listitem>
+					<listitem>exportAll()</listitem>
+		        </itemizedlist>
+				
+				<para>Beneath this methods there are some additional ones to gather information about the current IConverter and the
+				underlying IDynamicTemplateSystem:</para>
+				
+				<itemizedlist>
+					<listitem>getDynamicTemplateSystem()</listitem>
+					<listitem>getDtsFileName()</listitem>
+					<listitem>getDtsFile()</listitem>
+					<listitem>getBaseDtsPath()</listitem>
+					<listitem>getBaseExportPath()</listitem>
+					<listitem>getLastConvertCallDate(String)</listitem>
+					<listitem>getLastExportCallDate(String)</listitem>
+					<listitem>getLastExportAllCallDate()</listitem>
+		        </itemizedlist>
+		        
+				<para>For detailed information about the methods please take a look at the javadocs.</para>
+			</section>
+		</section>
+		
+		<section xml:id="dtsApi_xml">
+			<title>XML</title>
+			<para>The second big and important part of the &dts; API is the XML framework. This framework defines everything you need
+			to read an dts xml file and create all needed instances of IDtsDtos and the other way round, to create the dts xml file
+			with given IDtsDto instances.</para>
+			
+			<para>If you take a look into the package de.groth.dts.api.xml you'll see some sub-packages and some classes with their 
+			names ending on 'Handler' (apart from one). Let's take a look at the xml package before we discuss all the classes and
+			interfaces:</para>
+			
+			<table>
+				<caption>XML Framework (de.groth.dts.api.xml)</caption>
+				<colgroup>
+					<col width="40%" />
+					<col width="60%" />
+				</colgroup>
+				<thead>
+					<tr>
+						<td>package/class</td>
+						<td>description</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+				    	<td>exceptions</td>
+				    	<td>Package holding all xml framework specific exceptions. At the moment there is only one.</td>
+					</tr>
+					<tr>
+						<td>plugins.IAbstractPluginXmlHandler</td>
+						<td>Abstract XmlHandler used for plugin types.</td>
+					</tr>
+					<tr>
+						<td>structure</td>
+						<td>Many Enums holding information about the xml structure. This is used for reading and writing
+						the xml information. Pre Java 1.5 you would have used static final variables somwhere.</td>
+					</tr>
+					<tr>
+						<td>util.XmlHelper</td>
+						<td>Helper class reading, handling, converting and generating xml content.</td>
+					</tr>
+					<tr>
+						<td>IDtsDtoXmlHandlerProvider</td>
+						<td>Defines a method for providing an IDtsDtoXmlHandler. All IDtsDto which can be found in
+						your configuration file implement this. In fact IDynamicTemplateSystem extends IDtsDtoXmlHandlerProvider.</td>
+					</tr>
+					<tr>
+						<td>IDtsDtoHandler</td>
+						<td>Base interface for all derived interface describing how to handle a specific type of IDtsDto.
+						Provides methods for reading from xml (returning an instance) and writing to xml.</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<para>As you can see the xml frmaework api is fairly simple, just a few interfaces to be implemented.</para>
+		</section>
+		
+		<section xml:id="dtsApi_utils">
+			<title>API Utility Classes</title>
+			<para>Beneath all the interfaces and abstract classes that have to be implemented the api module also provides some
+			useful utility classes. These classes are meant to be used by any module implementing the api.</para>
+			
+			<table>
+				<caption>API Utility Classes</caption>
+				<colgroup>
+					<col width="45%" />
+					<col width="55%" />
+				</colgroup>
+				<thead>
+					<tr>
+						<td>package/class</td>
+						<td>description</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+				    	<td>core.util.DateHelper</td>
+				    	<td>Methods for date handling.</td>
+					</tr>
+					<tr>
+				    	<td>core.util.FileHelper</td>
+				    	<td>Methods for reading file content into a string and handling paths.</td>
+					</tr>
+					<tr>
+				    	<td>core.util.GenericsHelper</td>
+				    	<td>Applying Generics to a source string.</td>
+					</tr>
+					<tr>
+				    	<td>core.util.IThemeHelper</td>
+				    	<td>Handling ITheme-Hierarchy, resolving template file, getting all parameters through
+				    	hierarchy and checking consistency.</td>
+					</tr>
+					<tr>
+				    	<td>core.util.LazyInitializationHelper</td>
+				    	<td>Lazy initialization of ILazyInitializationCapable-Instances.</td>
+					</tr>
+					<tr>
+				    	<td>core.util.plugins.AbstractPluginFactory</td>
+				    	<td>Abstract factory for instantiating plugin types and writing them back to xml at runtime.</td>
+					</tr>
+					<tr>
+				    	<td>core.util.plugins.ParameterPluginFactory</td>
+				    	<td>Concrete factory for all PluginTypeParameter-Instances.</td>
+					</tr>
+					<tr>
+				    	<td>core.util.plugins.GenericPluginFactory</td>
+				    	<td>Concrete factory for all PluginTypeGenericr-Instances.</td>
+					</tr>
+					<tr>
+				    	<td>core.util.plugins.ProcessingPluginFactory</td>
+				    	<td>Concrete factory for all PluginTypeProcessing-Instances.</td>
+					</tr>
+					<tr>
+				    	<td>xml.util.XmlHelper</td>
+				    	<td>Helper class reading, handling, converting and generating xml content.</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+		
+		<section xml:id="dtsApi_exceptions">
+			<title>Exceptions</title>
+			<para>The &dts; defines some exception classes which indicate problems for different use cases. If you plan to extend
+			the framework you also might want to use this exception-hierarchy. In general the class names are self descriptive. So
+			just take a look at the exception hierarchy.</para>
+			
+			<para />
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/developersguide/ExceptionsWithoutPluginsClassDiagram.png" format="png" 
+						contentwidth="19cm" width="19cm" scalefit="0" align="center" />
+				</imageobject>
+			</mediaobject>
+			
+			<para>All exception classes are in one of the following packages:</para>
+			
+			<itemizedlist>
+				<listitem>de.groth.dts.api.core.exception</listitem>
+				<listitem>de.groth.dts.api.xml.exception</listitem>
+			</itemizedlist>
+		</section>
+	</chapter>
+	
+	<chapter xml:id="dtsImpl">
+		<title>Reference Implementation</title>
+		<para>As you already know from the api chapter there are to main packages, the core and xml framework. In case of the standard
+		implementation these packages are:</para>
+		
+		<orderedlist>
+			<listitem>de.groth.dts.impl.core</listitem>
+			<listitem>de.groth.dts.impl.xml</listitem>
+		</orderedlist>
+		
+		<para>The following sections will briefly describe the implementations, but there are not much information left to present here.
+		All the concepts are discussed in the api chapter so the implementation is really 'just writing it down'.</para>
+		
+		<section xml:id="dtsImpl_dto">
+			<title>DTO Implementation</title>
+			<para>The package 'de.groth.dts.impl.core.dto' contains all classes implementing the IDtsDto interface. All classes get and 
+			check their properties in the constructor. So you can't create an instance without some mandatory information.</para>
+		</section>
+		<section xml:id="dtsImpl_converterInvoker">
+			<title>Converter and Invoker</title>
+			<para>While implementing the IConverter interface will result in a class which really implements all of the methods,
+			implementing the IInvoker interface may vary. So the reference implementation provides an ConverterImpl that might be
+			used by all implementations of IInvoker. Even the ConverterImpl class is not very exciting, because it's simply coding
+			everything down. Most of the stuff of course is happening in the convert(String), export(String) and exportAll() methods.</para>
+			
+			<para>On the other hand there is only one implementation of IInvoker at the moment, the BatchInvoker. This class is meant
+			to be used from command-line for exporting all pages. As you can see in the source code supportsConvert() and 
+			supportsExport(String) return false and the methods convert(String) and export(String) will throw an UnsupportedOperationException.</para>
+			
+			<para>So if you need to handle the &dts; in other situations you just have to implement another invoker, e. g. a Servlet
+			invoker which handles only the convert(String) method and return the output directly in the response.</para>
+		</section>
+		<section xml:id="dtsImpl_xml">
+			<title>XML</title>
+			<para>Similar to the core.dto package the xml implementation is some sort of ... boring. Just many classes defining how
+			to instantiate or write back an IDtsDto. The plugins package provides one general class for all plugins. Remember the
+			difference between a plugin and a concrete instance. So you'll find a ParameterPluginXmlHandler in the plugins package
+			which will generate the parameter node under the plugins node. And on the other hand you'll find a ParameterBaseXmlHandler
+			which will generate a param node under a theme or page node.</para>
+			
+			<para>The last thing to be mentioned about the xml implementation is the handling of parameter and processing instances. you
+			know that these are possible plugin types, so they can define additional attributes. All these attributes have to be handled
+			by the concrete implementation. So if you define a paramater plugin implementation with two additional attributes you also
+			have to define how these attributes are read from xml and written to xml.</para>
+			
+			<para>If you take a look in the ParameterBaseXmlHandler and ProcessingBaseXmlHandler you'll see that the factory is used
+			for all specific attributes. The exact handling for this will be discussed in the plugins chapter.</para>
+		</section>
+	</chapter>
+	
+	<chapter xml:id="dtsPlugins">
+		<title>Standard Plugins</title>
+		<para>the &dts; Plugins Module delivers the standard plugins included in every &dts; release. Apart from the Plugin implementations
+		this module contains:</para>
+		
+		<itemizedlist>
+			<listitem>utility classes</listitem>
+			<listitem>additional exception classes</listitem>
+		</itemizedlist>
+		
+		<para>Before we discuss the packages more detailed, let me just say one mor thing. If you develop new plugins feel free to
+		send them back to me, so I might put them in the next &dts; Release. Thanks.</para>
+		
+		<section xml:id="dtsPlugins_utils">
+			<title>Utility Classes (de.groth.dts.plugins.util)</title>
+			<para>The classes are used by parameter and generic plugins so the functionality can be used either as parameter or as
+			generic. It's always a good idea to implement an utility class which encapsulates the functionality and build a
+			parameter and generic on the top of it.</para>
+			
+			<table>
+				<caption>Plugin Utility Classes</caption>
+				<colgroup>
+					<col width="40%" />
+					<col width="60%" />
+				</colgroup>
+				<thead>
+					<tr>
+						<td>class</td>
+						<td>description</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+				    	<td>InsertionPatternValueResolver</td>
+				    	<td>Resolves the value of an insertion pattern with given insertion point definitions.</td>
+					</tr>
+					<tr>
+				    	<td>PropertyReader</td>
+				    	<td>Handles value resolving on properties files.</td>
+					</tr>
+					<tr>
+				    	<td>StateValueResolver</td>
+				    	<td>Resolves the state value with a given condition value.</td>
+					</tr>
+					<tr>
+				    	<td>XSLTTransformator</td>
+				    	<td>Processes xslt on an xml document.</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+		
+		<section xml:id="dtsPlugins_exceptions">
+			<title>Exceptions</title>
+			<para>In addition to the exception hierarchy defined in the api module, the plugins module adds some extra classes
+			handling specific exceptions.</para>
+			
+			<para />
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/developersguide/ExceptionsPluginsOnlyClassDiagram.png" format="png" 
+						contentwidth="15cm" width="15cm" scalefit="0" align="center" />
+				</imageobject>
+			</mediaobject>
+		</section>
+		
+		<section xml:id="dtsPlugins_implementations">
+			<title>Implementations</title>
+			<para>The remaining three packages conver the implementations of parameters, generics and processings. In fact there
+			is not much left to say. The functional description can be taken from the usersguise. If you take a look at the
+			classes you'll see that the generic implementations are just more or less simple implementations of the api interface.</para>
+			
+			<para>Well ... parameter and processing implementations are also of course implementations of the api interface, but
+			as we mentioned earlier we have to handle all additional attributes here. But how? Still remember the AbstractPluginFactory??
+			This factory is searching via reflection for an annotated constructor and method to instantiate the plugin and write
+			it back to xml.</para>
+			
+			<para>During the instantiation the framework has to know which constructor to be called, so the constructor has to be annotated
+			with the de.groth.dts.api.core.dto.plugins.PluginConstructor annotation and take an instance of PluginInstantiationContext
+			as argument. Of course you as programmer have to take care about reading the correct xml values from the xml node.</para>
+			
+			<para>The other way round is to bring an instance back to it's xml representation. Therefore an annotated method has to be 
+			present, again the AbstractPluginFactory will lookup the method via reflection. The annotaion to be present is
+			de.groth.dts.api.core.dto.plugins.PluginToXml and the only argument has to be an org.dom4.element.Element. This xml element
+			represents 'your' element, so you can add yout attributes as you read them out. Be sure to create exactly the same xml
+			structure you want to get during instantiation, otherwise this loop will not work!</para>
+		</section>
+	</chapter>
+</book>

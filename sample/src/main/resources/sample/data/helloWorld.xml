@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<hello-world>
+	<greeting>Hello, World!</greeting>
+	<greeter>the Dynamic Template System programmer</greeter>
+	<greeter>the Dynamic Template System itself</greeter>
+</hello-world>

@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="688.72961"
+   height="471"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docbase="G:\Projekte\13thGateSvn\DynamicTemplateSystem\doc\docbook\images\usersguide"
+   sodipodi:docname="theme_parameter_and_template.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective66" />
+    <marker
+       inkscape:stockid="Dot_m"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Dot_m"
+       style="overflow:visible">
+      <path
+         id="path7037"
+         d="M -2.5,-1 C -2.5,1.76 -4.74,4 -7.5,4 C -10.26,4 -12.5,1.76 -12.5,-1 C -12.5,-3.76 -10.26,-6 -7.5,-6 C -4.74,-6 -2.5,-3.76 -2.5,-1 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none;marker-end:none"
+         transform="matrix(0.4,0,0,0.4,2.96,0.4)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Sstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Sstart"
+       style="overflow:visible">
+      <path
+         id="path6984"
+         d="M 0,0 L 5,-5 L -12.5,0 L 5,5 L 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(0.2,0,0,0.2,1.2,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lstart"
+       style="overflow:visible">
+      <path
+         id="path4390"
+         d="M 0,0 L 5,-5 L -12.5,0 L 5,5 L 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(0.8,0,0,0.8,10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend"
+       style="overflow:visible">
+      <path
+         id="path4393"
+         d="M 0,0 L 5,-5 L -12.5,0 L 5,5 L 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="350"
+     inkscape:cy="243.93959"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     showguides="true"
+     inkscape:object-bbox="true"
+     inkscape:object-points="true"
+     inkscape:object-nodes="true"
+     objecttolerance="10000"
+     gridtolerance="10000"
+     inkscape:grid-points="true"
+     guidetolerance="10000"
+     inkscape:guide-points="true"
+     inkscape:window-width="1201"
+     inkscape:window-height="889"
+     inkscape:window-x="39"
+     inkscape:window-y="12" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-20.635189,-21.862183)">
+    <g
+       id="g2232">
+      <rect
+         y="22.362183"
+         x="21.135189"
+         height="468.86481"
+         width="308.86481"
+         id="rect2219"
+         style="text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:0.19607843;fill-rule:evenodd;stroke:#000000;stroke-width:0.99999994;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text2221"
+         y="50.494919"
+         x="175.66327"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bodoni MT"
+         xml:space="preserve"><tspan
+           id="tspan2228"
+           style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Bodoni MT"
+           y="50.494919"
+           x="175.66327"
+           sodipodi:role="line">Theme Definition</tspan></text>
+    </g>
+    <g
+       id="g2212"
+       transform="translate(42.4953,0.4999924)">
+      <rect
+         y="22.997383"
+         x="357.5047"
+         height="468.86481"
+         width="308.86481"
+         id="rect3254"
+         style="text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:0.19607843;fill-rule:evenodd;stroke:#000000;stroke-width:0.99999994;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text3260"
+         y="51.130119"
+         x="512.03278"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bodoni MT"
+         xml:space="preserve"><tspan
+           style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Bodoni MT"
+           id="tspan3264"
+           y="51.130119"
+           x="512.03278"
+           sodipodi:role="line">Template File</tspan></text>
+    </g>
+    <rect
+       style="fill:#000000;fill-opacity:0.19607843;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3272"
+       width="10"
+       height="0"
+       x="20"
+       y="232.36218" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bodoni MT"
+       x="402.14276"
+       y="89.650269"
+       id="text2237"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2289"
+         x="402.14276"
+         y="89.650269">&lt;!DOCTYPE html PUBLIC ...</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2291"
+         x="402.14276"
+         y="107.15027">&lt;html&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2293"
+         x="402.14276"
+         y="124.65027"> &lt;head&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2295"
+         x="402.14276"
+         y="142.15027">  &lt;title&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2297"
+         x="402.14276"
+         y="159.65027"> Dynamic Template System - </tspan><tspan
+         sodipodi:role="line"
+         id="tspan2299"
+         x="402.14276"
+         y="177.15027"> Hello World</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2301"
+         x="402.14276"
+         y="194.65027">  &lt;/title&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2303"
+         x="402.14276"
+         y="212.15027">  ${theme.head}</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2305"
+         x="402.14276"
+         y="229.65027"> &lt;/head&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2307"
+         x="402.14276"
+         y="247.15027"> &lt;body&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2309"
+         x="402.14276"
+         y="264.65027">  &lt;h1&gt;${theme.content.title}&lt;/h1&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2311"
+         x="402.14276"
+         y="282.15027">  ${theme.content.text}&lt;br/&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2313"
+         x="402.14276"
+         y="299.65027">  &lt;p&gt;${theme.content.placeHolder}&lt;/p&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2315"
+         x="402.14276"
+         y="317.15027"> &lt;/body&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2317"
+         x="402.14276"
+         y="334.65027">&lt;/html&gt;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bodoni MT"
+       x="21.713877"
+       y="87.455376"
+       id="text2319"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3045"
+         x="21.713877"
+         y="87.455376">&lt;theme id=&quot;...&quot; template=&quot;...&quot;&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3047"
+         x="21.713877"
+         y="104.95538">   &lt;param type=&quot;empty&quot; name=&quot;theme.content.text&quot; /&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3049"
+         x="21.713877"
+         y="122.45538">   &lt;param type=&quot;simple&quot; name=&quot;theme.content.title&quot; </tspan><tspan
+         sodipodi:role="line"
+         id="tspan3051"
+         x="21.713877"
+         y="139.95538">      value=&quot;...&quot; /&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3053"
+         x="21.713877"
+         y="157.45538">   </tspan><tspan
+         sodipodi:role="line"
+         id="tspan3055"
+         x="21.713877"
+         y="174.95538">   &lt;param type=&quot;complex&quot; name=&quot;theme.head&quot; </tspan><tspan
+         sodipodi:role="line"
+         id="tspan3057"
+         x="21.713877"
+         y="192.45538">      cropCData=&quot;1&quot;&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3059"
+         x="21.713877"
+         y="209.95538">   &lt;![CDATA[</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3061"
+         x="21.713877"
+         y="227.45538">    &lt;!-- after generation, no cdata will be left --&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3063"
+         x="21.713877"
+         y="244.95538">    &lt;link type=&quot;text/css&quot; </tspan><tspan
+         sodipodi:role="line"
+         id="tspan3065"
+         x="21.713877"
+         y="262.45538">       href=&quot;${dts.dynamicPath}styles/basic.css&quot; </tspan><tspan
+         sodipodi:role="line"
+         id="tspan3067"
+         x="21.713877"
+         y="279.95538">       rel=&quot;stylesheet&quot;/&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3069"
+         x="21.713877"
+         y="297.45538">     ]]&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3071"
+         x="21.713877"
+         y="314.95538">   &lt;/param&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3073"
+         x="21.713877"
+         y="332.45538">   </tspan><tspan
+         sodipodi:role="line"
+         id="tspan3075"
+         x="21.713877"
+         y="349.95538">   &lt;param type=&quot;complex&quot; </tspan><tspan
+         sodipodi:role="line"
+         id="tspan3077"
+         x="21.713877"
+         y="367.45538">       name=&quot;theme.content.placeHolder&quot;&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3079"
+         x="21.713877"
+         y="384.95538">    ${dts.currentDate:type=export,</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3081"
+         x="21.713877"
+         y="402.45538">       format=yyyy/MM/dd HH:mm:ss.SSS}</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3083"
+         x="21.713877"
+         y="419.95538">   &lt;/param&gt;</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3085"
+         x="21.713877"
+         y="437.45538">&lt;/theme&gt;</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow1Lend);stroke-opacity:1"
+       d="M 330,172.36218 L 380,172.36218 L 380,212.36218 L 400,212.36218"
+       id="path3087" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow1Lend);stroke-opacity:1"
+       d="M 330,102.36218 L 370,102.36218 L 370,282.36218 L 400,282.36218"
+       id="path4058" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-mid:none;marker-end:url(#Arrow1Lend);stroke-opacity:1"
+       d="M 330,122.36218 L 360,122.36218 L 360,262.36218 L 400,262.36218"
+       id="path5029" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow1Lend);stroke-opacity:1"
+       d="M 330,352.36218 L 380,352.36218 L 380,302.36218 L 400,302.36218"
+       id="path7169" />
+  </g>
+</svg>
