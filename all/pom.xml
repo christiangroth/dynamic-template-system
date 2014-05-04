@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.groth.dts</groupId>
+	<artifactId>all</artifactId>
+	<version>0.99-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<!-- TODO: 
+	 - sum up checkstyle reports, report format?
+	 - sum up findbugs reports, report format?
+	 - pmd??
+	 
+	 - copy doc and resports to dist
+	 - execute website in dist
+	 - zip dist (and zip old releases manually)
+	 
+	 - reporting & site generation
+	 - eclipse plugin
+	-->
+	
+	<properties>
+		<plugin.mavenAntrunPlugin>1.7</plugin.mavenAntrunPlugin>
+		<plugin.mavenAssemblyPlugin>2.3</plugin.mavenAssemblyPlugin>
+		<plugin.mavenCheckstylePlugin>2.9.1</plugin.mavenCheckstylePlugin>
+		<plugin.mavenCompilerPlugin>2.3.2</plugin.mavenCompilerPlugin>
+		<plugin.mavenDependencyPlugin>2.5.1</plugin.mavenDependencyPlugin>
+		<plugin.mavenFindbugsPlugin>2.5.2</plugin.mavenFindbugsPlugin>
+		<plugin.mavenJavaDocPlugin>2.8.1</plugin.mavenJavaDocPlugin>
+		<plugin.mavenProjectInfoReportsPlugin>2.5.1</plugin.mavenProjectInfoReportsPlugin>
+		<plugin.mavenResourcesPlugin>2.6</plugin.mavenResourcesPlugin>
+		<plugin.mavenSourcePlugin>2.2</plugin.mavenSourcePlugin>
+
+		<version.dom4j>1.6.1</version.dom4j>
+		<version.log4j>1.2.14</version.log4j>
+		
+		<checkstyle.config>../config/checkstyle/checks.based.on.sun.checks.xml</checkstyle.config>
+		<checkstyle.failBuildOnError>false</checkstyle.failBuildOnError>
+		<checkstyle.failBuildOnViolation>false</checkstyle.failBuildOnViolation>
+		
+		<findbugs.failBuildOnError>false</findbugs.failBuildOnError>
+	</properties>
+
+	<!-- TODO 
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${plugin.mavenProjectInfoReportsPlugin}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${plugin.mavenCheckstylePlugin}</version>
+				<configuration>
+					<configLocation>${checkstyle.config}</configLocation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>2.5.2</version>
+				<configuration>
+					<sourceEncoding>UTF-8</sourceEncoding>
+					<failOnError>false</failOnError>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting> -->
+</project>

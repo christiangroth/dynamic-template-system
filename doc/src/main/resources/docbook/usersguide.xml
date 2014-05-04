@@ -1,0 +1,1659 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE article [
+	<!ENTITY dts "Dynamic Template System">
+]>
+<book version="5.0" xml:lang="en" xmlns="http://docbook.org/ns/docbook"
+      xmlns:xl="http://www.w3.org/1999/xlink"
+      xmlns:ns5="http://www.w3.org/1998/Math/MathML"
+      xmlns:ns4="http://www.w3.org/1999/xhtml"
+      xmlns:ns3="http://www.w3.org/2000/svg"
+      xmlns:ns="http://docbook.org/ns/docbook">
+  <info>
+    <title>&dts; - Users Guide</title>
+    <subtitle>How to use the &dts;</subtitle>
+
+    <authorgroup>
+      <author>
+        <personname>Christian Groth</personname>
+        <email>kontakt@christian-groth.info</email>
+      </author>
+    </authorgroup>
+	
+    <pubdate>2009-01-12</pubdate>
+  </info>
+
+  <chapter xml:id="introduction">
+    <title>Preface</title>
+
+    <para>This guide was written for all people who want to use the &dts; and need some help to get started. This first chapter deals 
+    with some general information about the DTS. Afterwards you'll hopefully get the DTS idea and understand the concepts, so you can 
+    deal with the sample project and finally get started with your own project.</para>
+
+    <section xml:id="introduction_about">
+      <title>What is it?</title>
+
+      <para>&dts; generates output based on templates. It takes a template and generates the content for all placeholders using parameters and
+      generics. Afterwards the output can be just returned to any application using &dts; or saved into a file.</para>
+
+      <para>So why do you call it 'dynamic'? ... well the output format is not limited to xml, (x)html or whatever. You can generate output in any
+      format you want. Perhaps you want to generate php, javascript or css files? Along with xhtml? All in one project? Just do it, it's really
+      that easy as you will see in this guide.</para>
+    </section>
+
+    <section xml:id="introduction_technologies">
+      <title>Technologies</title>
+
+      <para>If you want to use the &dts;, you have to be able to handle some technologies. First of all you have to deal with xml. The configuration
+      file for your project will be written in xml. The &dts; will read this file, build up a representation of your project in Java and process your
+      commands. ... Commands? Where they come from? What is the java representation? Are you crazy? We'll cover all this in the next chapter,
+      so far you just have to know that you have to be familiar with xml and the the format you want to create of course.</para>
+
+      <para>Let's just build up a list of technologies used by &dts; and keep in mind that you primarily have to deal with xml and your target
+      technology:</para>
+
+      <itemizedlist>
+        <listitem>XML</listitem>
+        <listitem>Target Technology</listitem>
+        <listitem>Java</listitem>
+      </itemizedlist>
+    </section>
+  </chapter>
+
+  <chapter xml:id="basicConcepts">
+    <title>Basic Concepts</title>
+
+    <para>There are some really basic concepts you have to know to be able to generate your content. This concepts won't get you really far and they you
+    won't be able to do freaky things with them, but hey ... they're basics.</para>
+
+    <section xml:id="basicConcepts_dynamicTemplateSystem">
+      <title>&dts;</title>
+
+      <para>You can look at the &dts; as your project. So if you have more than one project using this framework you will have more than one &dts;.
+      A &dts; contains all of your projects information:</para>
+
+      <itemizedlist>
+        <listitem>Themes</listitem>
+        <listitem>Pages</listitem>
+        <listitem>Parameters</listitem>
+        <listitem>Generics</listitem>
+        <listitem>Processings</listitem>
+        <listitem>States</listitem>
+        <listitem>Insertion Patterns</listitem>
+      </itemizedlist>
+
+      <para>All of these concepts will be handled here in this guide, but before we start with the basics just make one step back. What do we know
+      so far?</para>
+
+      <itemizedlist>
+        <listitem>each project is a &dts;</listitem>
+        <listitem>all information for one project are contained in the&dts;</listitem>
+        <listitem>all information are stored in one xml file</listitem>
+      </itemizedlist>
+
+      <section xml:id="basicConcepts_xmlToJava">
+        <title>From XML to Java</title>
+
+        <para>To process all your &dts; information and generate the content a java representation of your xml must be created. After this is
+        achieved the &dts; has some methods to generate the content. All these may be invoked using an Invoker. In general there are three
+        possibilities to generate content:</para>
+
+        <itemizedlist>
+          <listitem>convert a single page</listitem>
+          <listitem>export a single page</listitem>
+          <listitem>export all pages</listitem>
+        </itemizedlist>
+
+        <para>The last thing you have to know about conversion from xml to java is how boolean values (true, false or yes and no) are handled. If
+        an optional boolean parameter is not there it will result in false, 'y', 'yes' or '1' will result in true and all other values will also
+        result in false.</para>
+      </section>
+
+      <section xml:id="basicConcepts_batchInvoker">
+        <title>Batch Invoker</title>
+
+        <para>&dts; give you a class named BatchInvoker which is able to export all pages into the filesystem. This is the invoker also used in
+        the sample project. You can start the invoker via command line and don't have to worry about anything but the parameters:</para>
+
+        <itemizedlist>
+          <listitem>basePath: the basePath for all relative pathinformation</listitem>
+          <listitem>dtsFile: path to your &dts; xml file (relative to basePaht)</listitem>
+          <listitem>exportPath: path to root export directory</listitem>
+        </itemizedlist>
+
+        <para>When you start the BatchInvoker with this three information it will startup and (very roughly) do the following things:</para>
+
+        <itemizedlist>
+          <listitem>checks if base and export paths are existent and readable</listitem>
+          <listitem>checks if the dtsFile is existent and readable</listitem>
+          <listitem>initializes an converter</listitem>
+          <listitem>export all pages using the converter&gt;</listitem>
+        </itemizedlist>
+
+        <para>The BatchInvoker also initializes the log4j system, so be sure to have a file called log4j.xml in the current directory (where you
+        start the BatchInvoker from).</para>
+
+		<para />
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/usersguide/xml_invoker_converter_system.svg" format="svg" 
+					contentwidth="13cm" width="13cm" scalefit="0" align="center" />
+			</imageobject>
+		</mediaobject>
+      </section>
+
+      <para>So now you should know how the &dts; roughly works and how you can export your pages. What you don't know is how to create the xml file and
+      which possibilities you have.</para>
+    </section>
+
+    <section xml:id="basicConcepts_theme">
+      <title>Theme</title>
+
+      <para>A theme is basically a template. Each definition of a theme holds the following information:</para>
+
+      <itemizedlist>
+        <listitem>id</listitem>
+        <listitem>template</listitem>
+		<listitem>parameters</listitem>
+      </itemizedlist>
+
+      <para>The id is used for pages to reference the theme they will base upon, but we'll discuss this in the next chapter. The template file is
+      more interesting for now. This file can be of any non-binary format you like. It might be a plain text file, html, xml, sql or whatever. So here
+      we have the first situation in which we are really dynamic.</para>
+
+      <para>So what does a template do? It defines some sort of placeholders, right. So you nearly know how to create your first template-file to be
+      used by a theme. Placeholders are just names with some special characters before and after the name, so that the &dts; might know where
+      the placeholder really is.</para>
+
+      <para>To define a placeholder you just have to define a name with the prefix '${' and the postfix '}'. So if you want to define a placeholder
+      called 'content' you have to write '${content}' in your template-file.</para>
+
+      <para>There is also an (optional) theme inheritance you might want to use. Instead of specifying a templateFile you can specify a superThemeId. 
+      You must not define both, so all themes contained in an inheritance (which only can have one root theme) uses the same
+      file. This concept might be used to define different standard values for the same template file.</para>
+      
+      <table>
+		<caption>general theme xml attributes</caption>
+		<colgroup>
+			<col width="20%" />
+			<col width="55%" />
+			<col width="25%" />
+		</colgroup>
+		<thead>
+			<tr>
+				<td>xml attribute</td>
+		    	<td>description</td>
+		    	<td>mandatory</td>
+			</tr>
+		</thead>
+		<tbody>
+		  	<tr>
+		    	<td>id</td>
+		    	<td>unique id for theme</td>
+		    	<td>Y</td>
+		  	</tr>
+		  	<tr>
+		    	<td>template</td>
+		    	<td>path (relative to basePath) to template file</td>
+		    	<td>either template or superThemeId must be set!!</td>
+		  	</tr>
+		  	<tr>
+		    	<td>superThemeId</td>
+		    	<td>id of parent theme</td>
+		    	<td>either superThemeId or template must be set!!</td>
+		  	</tr>
+		</tbody>
+	  </table>
+
+      <para />
+	  <mediaobject>
+		<imageobject>
+			<imagedata fileref="images/usersguide/theme_parameter_and_template.svg" format="svg" 
+				contentwidth="15cm" width="15cm" scalefit="0" align="center" />
+		</imageobject>
+      </mediaobject>
+    </section>
+
+    <section xml:id="basicConcepts_parameter">
+      <title>Parameter</title>
+
+      <para>Parameters replace placeholders with concrete values. Each parameter has some basic attributes:</para>
+
+	  <table>
+		<caption>general parameter xml attributes</caption>
+		<colgroup>
+			<col width="20%" />
+			<col width="65%" />
+			<col width="15%" />
+		</colgroup><thead>
+			<tr>
+				<td>xml attribute</td>
+		    	<td>description</td>
+		    	<td>mandatory</td>
+			</tr>
+		</thead>
+		<tbody>
+		  	<tr>
+		    	<td>type</td>
+		    	<td>defines the parameter plugin type</td>
+		    	<td>Y</td>
+		  	</tr>
+		  	<tr>
+		    	<td>name</td>
+		    	<td>identifies the placeholder to be replaces</td>
+		    	<td>Y</td>
+		  	</tr>
+		</tbody>
+	   </table>
+
+      <para>The parameter name has to match some placeholder, so it defines the content position in the template file. The type specifies which
+      concrete type of parameter is used. &dts; give you parameters for all types of concepts, these parameters are discussed later in this guide.</para>
+    </section>
+    <section xml:id="basicConcepts_page">
+      <title>Page</title>
+
+      <para>So far you know about themes and some basic parameters, but this is not enough to produce some real content. But don't worry, there's
+      only one concept missing, the page.</para>
+
+      <para>A page will (mostly) result in a file if you call the exportAll (or export) method on any Converter/Invoker. The basic information for
+      every page are the following:</para>
+
+      <itemizedlist>
+        <listitem>id</listitem>
+        <listitem>theme</listitem>
+        <listitem>file</listitem>
+        <listitem>parameters</listitem>
+      </itemizedlist>
+
+      <para>The id and theme information are mandatory, so be sure to use a unique page identifier and set the theme that has to be used for this
+      page. Of course a theme with the specified id must be defined.</para>
+
+      <para>Every parameter you define must override a parameter which is existent in the referenced theme. So it's always a good idea to define
+      every placeholder as parameter in the theme and override them in a page. Therefore the empty parameter is very useful to be used in the theme
+      definition. If you try to define a non-overriding parameter in a page this will result in an exception, because the theme does not offer this
+      parameter.</para>
+
+      <para />
+	  <mediaobject>
+		<imageobject>
+			<imagedata fileref="images/usersguide/theme_and_page_parameters.svg"  format="svg" 
+				contentwidth="15cm" width="15cm" scalefit="0" align="center" />
+		</imageobject>
+      </mediaobject>
+
+      <para>The last 'rule' you have to keep in mind is: The latest definition wins. So if you define parameter 'a' with the value '1' in
+      the theme definition and also parameter 'a' with value '2' in the page definition the generated value will be '2'.</para>
+
+      <para>There is one point we have to anticipate. You might also leave away the file attribute in your page xml definition. This will result in an not
+      exportable page. So be sure that you wont use the export functionality of any Invoker with such a page-id. If you're using exportAll this kind of pages
+      will be ignored.</para>
+      
+      <para>So why do you want to create such kind of pages?? Well ... as you might see later there is a page-include concept which lets you use any page, convert
+      it on the fly and include it as parameter or generic value. But we'll get this later.</para>
+      
+      <table>
+		<caption>general page xml attributes</caption>
+		<colgroup>
+			<col width="20%" />
+			<col width="65%" />
+			<col width="15%" />
+		</colgroup>
+		<thead>
+			<tr>
+				<td>xml attribute</td>
+		    	<td>description</td>
+		    	<td>mandatory</td>
+			</tr>
+		</thead>
+		<tbody>
+		  	<tr>
+		    	<td>id</td>
+		    	<td>unique id for page</td>
+		    	<td>Y</td>
+		  	</tr>
+		  	<tr>
+		    	<td>theme</td>
+		    	<td>id of theme to be used</td>
+		    	<td>Y</td>
+		  	</tr>
+		  	<tr>
+		    	<td>file</td>
+		    	<td>path (relative to exportPath) to output file</td>
+		    	<td>N</td>
+		  	</tr>
+		</tbody>
+	  </table>
+    </section>
+  </chapter>
+
+  <chapter xml:id="advancedConcepts">
+    <title>Advanced Concepts</title>
+
+    <para>So far you have all information you need to generate content with basic concepts. But there is more of course. All the additional stuff you
+    can use to generate content and be more dynamic will be discussed in this chapter.</para>
+
+    <section xml:id="advancedConcepts_plugins">
+      <title>Plugins</title>
+
+      <para>The &dts; works with a plugin system, so you can add any self developed plugins or even leave unneeded plugins away. if you take a
+      look in the dts xml file you'll find a block called 'plugins'. Each type of plugin has a 'key' and a 'class' attribute. For all standard plugins an 
+      entry will be provided within the sample project, but of course you're free to change the key if you want to. On the one hand the key attribute of every
+      plugin type is really important for your project, on the other hand the class attribute is only used internally.</para>
+
+      <para />
+	  <mediaobject>
+		<imageobject>
+			<imagedata fileref="images/usersguide/plugin_architecture.svg" format="svg" 
+				contentwidth="15cm" width="15cm" scalefit="0" align="center" />
+		</imageobject>
+      </mediaobject>
+
+      <para>If you use e. g. a parameter you know that you have to specify a type for that parameter. The value for the type attribute is the value of the
+      key attribute of any parameter plugin. So if you register the plugin class for the simple type parameter with the key 'complex', then every
+      parameter you use with the type 'complex' will be a parameter of type simple. So as you can see it's always a good idea to use a key that fits
+      the class.</para>
+      
+      <para>Of course the same rules apply to all other plugins, as you'll see in the following chapters.</para>
+      
+      <table>
+		<caption>general plugin xml attributes</caption>
+		<colgroup>
+			<col width="20%" />
+			<col width="65%" />
+			<col width="15%" />
+		</colgroup>
+		<thead>
+			<tr>
+				<td>xml attribute</td>
+		    	<td>description</td>
+		    	<td>mandatory</td>
+			</tr>
+		</thead>
+		<tbody>
+		  	<tr>
+		    	<td>id</td>
+		    	<td>identifier for this plugin to be used as parameter, generic or processing</td>
+		    	<td>Y</td>
+		  	</tr>
+		  	<tr>
+		    	<td>class</td>
+		    	<td>full qualified classname for internal use only (do not change, unless you really know how the stuff works)</td>
+		    	<td>Y</td>
+		  	</tr>
+		</tbody>
+	  </table> 
+    </section>
+
+    <section xml:id="advancedConcepts_generics">
+      <title>Generics</title>
+
+      <para>Generics are very similar to parameters and placeholders in template files, but you can define a generic everywhere you want. A
+      first let's take a look how generics are replaced by concrete values. For now think of generics just like placeholders which will be replaced
+      by something.</para>
+
+      <section xml:id="advancedConcepts_genericsConversionPlan">
+        <title>Converting A Page</title>
+
+        <para>If the &dts; converts a page there are a few steps which will be done.</para>
+
+        <orderedlist>
+          <listitem>collecting all parameters (themes and page)</listitem>
+          <listitem>processing parameters</listitem>
+          <listitem>processing generics</listitem>
+          <listitem>checking for unreplaced parameters/generics</listitem>
+        </orderedlist>
+
+      	<para />
+	  	<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/usersguide/converting_generics.svg" format="svg" 
+					contentwidth="15cm" width="15cm" scalefit="0" align="center" />
+			</imageobject>
+      	</mediaobject>
+
+        <para>As you can see generics are processed after parameters. Also there is no real definition for any generic. A generic is written
+        exactly like a placeholder in a template file, but the name of the placeholder must match a key of a generic plugin.</para>
+      </section>
+
+      <para>There is only one difference between a placeholder and a generic. The generic can have some parameters or arguments. In general generics
+      are designed to create output as an independent component, e. g. date/time values. Generic parameters are used to change the mode or
+      output of the generic, in fact generics are not page or theme dependent like parameters are.</para>
+
+      <para>If you want to or must provide parameters to a generic you have to do just a few things:</para>
+
+      <itemizedlist>
+        <listitem>add ':' after the generic name (the plugin key) to start the parameter section</listitem>
+        <listitem>add your parameters as 'name'='value' pair</listitem>
+        <listitem>separate parameter name/value pairs with ','</listitem>
+      </itemizedlist>
+
+	  <para>So if you want to pass teh parameter 'foo' with the value 'bar' and another one called 'foo2' with the value 'bar2' to a generic called 
+	  'myGeneric' use the following syntax: '${myGeneric:foo=bar,foo2=bar2}'</para>
+	  
+      <para>Of course &dts; delivers some basic generics like it also does with parameters. You'll find some generics which also can be used as
+      parameter like file content, xsl and so on. All build-in generics are discussed in an later chapter.</para>
+      
+      <section xml:id="advancedConcepts_lazyInitialization">
+      	<title>Lazy Initialization</title>
+      	<para>Another big advantage of generics is that parameters (better, one or more of their attributes) may be lazy initialized ...
+      	lazy what?</para>
+      	
+      	<para>If you think of a parameter as discussed above you know that you have to specify a type, a name and some additional attributes
+      	depending on the specified type. So if you want to use the parameter of type simple, you have to specify the 'value' attribute. (as you
+      	will see below) Normally you would specify the vlue as text in the xml-attribute. But what if you want that value to be ... well
+      	generic? Different value for different pages ...</para>
+      	
+      	<para>Well .. sounds you would like to use a state instead (see some lines below). So you define a state and different conditions, but
+      	you have to specify a condition for each page. So the condition value of the state parameter is some kind of generic. Well ...
+      	generic ... sounds like generics ... might we use them here? Might we even put a generic in the xml-attribute?? ... Yes!</para>
+      	
+      	<para>So lazy initialization means parameter attributes which contain a generic which must be replaced before the parameter value
+      	can be computed. But take care, not every parameter type is capable of lazy initialization and even if it is, not every of its 
+      	attributes is it. Below in the build-in parameters section you'll find a column which says if a parameter attribute is capable of 
+      	lazy initialization.</para>
+      </section>
+    </section>
+    
+    <section xml:id="advancedConcepts_nonDeterministicParametersGenerics">
+      <title>Non Deterministic Parameters and Generics</title>
+	  
+      <para>Parameters and Generics may be marked as non deterministic. Such Parameters and Generics will produce different results when set up 
+      with the same arguments but executed at different times. This information is planned to be used for some sort of caching. With this cache
+      the &dts; will be able to only convert and/or export pages which have changed, but hey ... it's scheduled for the future.</para>
+    </section>
+
+    <section xml:id="advancedConcepts_states">
+      <title>States</title>
+
+      <para>What is a state? ... You can think of a state as being one big 'if-then-else'. You specify different outputs bound to different
+      conditions. So if you put in 'conditionA' the output might be '1', if you put in 'condition2' the output might be 'B' or whatever.</para>
+      
+      <para>So in fact a state is something like a blackbox with an condition input that generates some reproducible output. Basically you
+      have to define the following information:</para>
+      
+      <itemizedlist>
+      	<listitem>id</listitem>
+      	<listitem>cropCData</listitem>
+      	<listitem>pre value</listitem>
+      	<listitem>post value</listitem>
+      	<listitem>default value</listitem>
+      	<listitem>conditions</listitem>
+      </itemizedlist>
+      
+      <para>As you might already guessed, the id is used to identify the state and therefore has to be unique. The optional cropCData flag
+      indicates if cdata sections might be cropped for pre/post/default-value and the condition values.</para>
+      
+      <para>The pre/post/default-values are specified as child node named 'pre', 'post' and 'default'. they are all three optional. So if
+      you do not define a default value and pass an unknown condition the application will fail to resolve the value. That's not good, so if
+      you do not define a default value, be sure to pass only known conditions.</para>
+      
+      <para>You have to specify at least one condition. A Condition contains (as xml content) the output value and holds its condition-value
+      as xml attribute 'condition'.</para>
+      
+      <table>
+		<caption>general state and contidion xml attributes</caption>
+		<colgroup>
+			<col width="20%" />
+			<col width="65%" />
+			<col width="15%" />
+		</colgroup>
+		<thead>
+			<tr>
+				<td>xml attribute</td>
+		    	<td>description</td>
+		    	<td>mandatory</td>
+			</tr>
+		</thead>
+		<tbody>
+		  	<tr>
+		    	<td>id</td>
+		    	<td>unique identifier for this state</td>
+		    	<td>Y</td>
+		  	</tr>
+		  	<tr>
+		    	<td>cropCData</td>
+		    	<td>flag if cdata section syntax will be cropped</td>
+		    	<td>Y</td>
+		  	</tr>
+		  	<tr>
+		    	<td>value (attribute of condition node)</td>
+		    	<td>condition value</td>
+		    	<td>Y</td>
+		  	</tr>
+		</tbody>
+	  </table>
+    </section>
+
+    <section xml:id="advancedConcepts_insertionPatterns">
+      <title>InsertionPatterns</title>
+
+      <para>An insertion pattern is very similar to the content of a template file and is used quite similar to the pageInclude
+      parameter/generic (as you might see later). You might specify the following information: </para>
+
+	  <itemizedlist>
+	  	<listitem>id</listitem>
+	  	<listitem>cropCData</listitem>
+	  	<listitem>default values for active/inactive/unreplaced insertion points</listitem>
+	  	<listitem>the data</listitem>
+	  </itemizedlist>
+	  
+	  <para>Well ... 'id' and 'cropCData' might be well known by now, so lets focus on the big data part. The xml content of the 
+	  'data' child node holds the patterns data. This data contains placeholders, similar to placeholders in a template file.
+	  They differ only in their prefix, because for an insertion pattern you have to use the prefix '#{' instead of '${'. This
+	  is necessary because name clashes with generics should be avoided.</para>
+	  
+	  <para>Each of this placeholders might be set to active or inactive ... or it might even not be set. So you wont replace
+	  a placeholder with concrete output data. In fact you have three different modes per placeholder, or insertion point.</para>
+	  
+	  <para>As you might see later, you can specify the values for active, inactive and unreplaced insertion points using parameter
+	  or generic. Furthermore you can specify a default value for each of this situations as child node with the names 
+	  'defaultActiveInsertion', 'defaultInactiveInsertion', 'defaultUnreplacedInsertion'.</para>
+    </section>
+
+    <section xml:id="advancedConcepts_processings">
+      <title>Processings</title>
+
+      <para>Processings are only relevant if the 'exportAll' method is used. This method runs all registered processings in two
+      phases. In general the exportAll mode runs in three phases:</para>
+      
+      <orderedlist>
+      	<listitem>run pre-processings</listitem>
+      	<listitem>convert and export all pages</listitem>
+      	<listitem>run post-processings</listitem>
+      </orderedlist>
+      
+      <para>Processings are registered in the xml file as child of the 'dynamicTemplateSystem' node under 'processings/pre'
+      and 'processings/post' and are processed in their from top to bottom.</para>
+      
+      <para>In general processings are not meant to do any of the 'core work' but prepare (pre-processings) and/or clean up
+      (post-processings). Because of this, there is a convention that processings will only read from basePath (and subdirectories)
+      but never write to it. The exportPath with all its subdirectories are allowed to be read and written to. Later in this guide 
+      you will get to know all build-in processings and if you take a look in the sample project you can see them in action.</para>
+    </section>
+  </chapter>
+  <chapter xml:id="buildInParameters">
+  	<title>Build-In Parameters</title>
+  	<para>This chapter lists and briefly explains all build-in parameters that can be used out of the box. At the end of this section
+  	you'll find a table with all parameter classnames which have to be set up in the plugins section in your dts xml. The 'lazy?' column
+  	says if this parameter attribute capable of lazy initialization.</para>
+  	
+  	<section xml:id="buildInParameters_empty">
+        <title>Parameter - Empty</title>
+
+        <para>An empty parameter whether defines any additional attributes, nor any value. It will result in nothing as its value, so any placeholder
+        will be replaced by nothing. You can use this type of parameter as kind of disabled parameter/placeholder in combination with parameter
+        overriding which is discussed later in the page section.</para>
+
+        <table>
+			<caption>empty parameter xml attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="55%" />
+				<col width="15%" />
+				<col width="10%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>xml attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+			    	<td>lazy?</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>-</td>
+			    	<td>-</td>
+			    	<td>-</td>
+			    	<td>-</td>
+			  	</tr>
+			</tbody>
+		</table>
+      </section>
+
+      <section xml:id="buildInParameters_simple">
+        <title>Parameter - Simple</title>
+
+        <para>The simple parameter defines an additional xml attribute called 'value', which holds ... the value, yes. So this one is really a
+        simple parameter.</para>
+
+        <table>
+			<caption>simple parameter xml attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="55%" />
+				<col width="15%" />
+				<col width="10%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>xml attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+			    	<td>lazy?</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>value</td>
+			    	<td>the value to be used</td>
+			    	<td>Y</td>
+			    	<td>N</td>
+			  	</tr>
+			</tbody>
+		</table>
+      </section>
+
+      <section xml:id="buildInParameters_complex">
+        <title>Parameter - Complex</title>
+
+        <para>Every parameter of type complex reads its value from the xml content of the parameter node. So you have the possibility to generate
+        structured content (xhtml, xml). It also defined the optional attribute 'cropCData' which holds a boolean value and tells if
+        potential cdata sections of the node-content may be replaced.</para>
+
+        <table>
+			<caption>complex parameter xml attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="55%" />
+				<col width="15%" />
+				<col width="10%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>xml attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+			    	<td>lazy?</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>cropCData</td>
+			    	<td>flag if cdata section syntax will be cropped</td>
+			    	<td>Y</td>
+			    	<td>N</td>
+			  	</tr>
+			</tbody>
+		</table>
+      </section>
+
+      <section xml:id="buildInParameters_fileContent">
+        <title>Parameter - File Content</title>
+
+        <para>You might want to use the content of another file as parameter value? No problem, this type of parameter is exactly what your looking
+        for. If defines just one xml attribute named 'file' which holds the relative path to the file being included.</para>
+
+        <table>
+			<caption>file content parameter xml attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="55%" />
+				<col width="15%" />
+				<col width="10%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>xml attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+			    	<td>lazy?</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>file</td>
+			    	<td>path (relative to base path) to the file to be included as content</td>
+			    	<td>Y</td>
+			    	<td>Y</td>
+			  	</tr>
+			</tbody>
+		</table>
+      </section>
+      
+      <section xml:id="buildInParameters_pageInclude">
+        <title>Parameter - Page Include</title>
+
+        <para>Takes a page by id in 'page' attribute, converts the referenced page and includes the result.</para>
+        
+        <table>
+			<caption>page include parameter xml attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="55%" />
+				<col width="15%" />
+				<col width="10%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+			    	<td>lazy?</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>page</td>
+			    	<td>id of page to be included</td>
+			    	<td>Y</td>
+			    	<td>Y</td>
+			  	</tr>
+			</tbody>
+		 </table>  
+      </section>
+
+      <section xml:id="buildInParameters_properties">
+        <title>Parameter - Properties</title>
+
+        <para>This type of parameter reads a property file referenced by the 'properties' attribute and resolved the value to the specified
+        property key in the 'key' attribute.</para>
+
+        <table>
+			<caption>properties parameter xml attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="55%" />
+				<col width="15%" />
+				<col width="10%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>xml attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+			    	<td>lazy?</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>properties</td>
+			    	<td>path (relative to base path) to the properties file</td>
+			    	<td>Y</td>
+			    	<td>Y</td>
+			  	</tr>
+			  	<tr>
+			  		<td>key</td>
+			  		<td>property key, the value will be used as output</td>
+			  		<td>Y</td>
+			    	<td>Y</td>
+			  	</tr>
+			</tbody>
+		</table>
+      </section>
+
+      <section xml:id="buildInParameters_xslt">
+        <title>Parameter - XSLT</title>
+
+        <para>You can use a xsl file to transform a xml document and use the result as parameter value. Specify the path to the xsl file with the
+        'xsl' attribute and the path to the xml document via 'xml' attribute.</para>
+
+        <table>
+			<caption>xslt parameter xml attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="55%" />
+				<col width="15%" />
+				<col width="10%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>xml attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+			    	<td>lazy?</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>xml</td>
+			    	<td>path (relative to base path) to xml document</td>
+			    	<td>Y</td>
+			    	<td>Y</td>
+			  	</tr>
+			  	<tr>
+			    	<td>xsl</td>
+			    	<td>path (relative to base path) to xsl document</td>
+			    	<td>Y</td>
+			    	<td>Y</td>
+			  	</tr>
+			</tbody>
+		</table>
+      </section>
+      
+      <section xml:id="buildInParameters_state">
+        <title>Parameter - State</title>
+
+        <para>This parameter uses a state to provide it's value, so you have to specify the state and the condition to be used. The output value
+        will be the result of the states condition.</para>
+
+         <table>
+			<caption>state parameter xml attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="55%" />
+				<col width="15%" />
+				<col width="10%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>xml attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+			    	<td>lazy?</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>state</td>
+			    	<td>id of state to be used</td>
+			    	<td>Y</td>
+			    	<td>Y</td>
+			  	</tr>
+			  	<tr>
+			    	<td>value</td>
+			    	<td>states condition</td>
+			    	<td>Y</td>
+			    	<td>Y</td>
+			  	</tr>
+			</tbody>
+		</table>
+      </section>
+      
+      <section xml:id="buildInParameters_insertionPattern">
+        <title>Parameter - Insertion Pattern</title>
+
+        <para>Uses an insertion pattern and sets active and inactive insertion points.</para>
+
+        <table>
+			<caption>insertion pattern parameter xml attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="55%" />
+				<col width="15%" />
+				<col width="10%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>xml attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+			    	<td>lazy?</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>insertion pattern</td>
+			    	<td>id of insertion pattern to be used</td>
+			    	<td>Y</td>
+			    	<td>Y</td>
+			  	</tr>
+			  	<tr>
+			    	<td>active</td>
+			    	<td>comma separated list of active insertion points</td>
+			    	<td>N</td>
+			    	<td>Y</td>
+			  	</tr>
+			  	<tr>
+			    	<td>inactive</td>
+			    	<td>comma separated list of inactive insertion points</td>
+			    	<td>N</td>
+			    	<td>Y</td>
+			  	</tr>
+			  	<tr>
+			    	<td>activeValue</td>
+			    	<td>value to be set for active insertion points (will override default value, if set)</td>
+			    	<td>N</td>
+			    	<td>Y</td>
+			  	</tr>
+			  	<tr>
+			    	<td>inactiveValue</td>
+			    	<td>value to be set for inactive insertion points (will override default value, if set)</td>
+			    	<td>N</td>
+			    	<td>Y</td>
+			  	</tr>
+			  	<tr>
+			    	<td>unreplacedValue</td>
+			    	<td>value to be set for unreplaced insertion points (will override default value, if set)</td>
+			    	<td>N</td>
+			    	<td>Y</td>
+			  	</tr>
+			</tbody>
+		</table>
+      </section>
+      
+      <table>
+		<caption>parameter plugin classnames</caption>
+		<colgroup>
+			<col width="25%" />
+			<col width="75%" />
+		</colgroup>
+		<thead>
+			<tr>
+				<td>parameter plugin</td>
+		    	<td>classname</td>
+			</tr>
+		</thead>
+		<tbody>
+		  	<tr>
+		    	<td>empty</td>
+		    	<td>de.groth.dts.plugins.parameters.ParameterTypeEmpty</td>
+		  	</tr>
+		  	<tr>
+		    	<td>simple</td>
+		    	<td>de.groth.dts.plugins.parameters.ParameterTypeSimple</td>
+		  	</tr>
+		  	<tr>
+		    	<td>complex</td>
+		    	<td>de.groth.dts.plugins.parameters.ParameterTypeComplex</td>
+		  	</tr>
+		  	<tr>
+		    	<td>file content</td>
+		    	<td>de.groth.dts.plugins.parameters.ParameterTypeFileContent</td>
+		  	</tr>
+		  	<tr>
+		    	<td>page include</td>
+		    	<td>de.groth.dts.plugins.parameters.ParameterTypePageInclude</td>
+		  	</tr>
+		  	<tr>
+		    	<td>properties</td>
+		    	<td>de.groth.dts.plugins.parameters.ParameterTypePropertyReader</td>
+		  	</tr>
+		  	<tr>
+		    	<td>xslt</td>
+		    	<td>de.groth.dts.plugins.parameters.ParameterTypeXslt</td>
+		  	</tr>
+		  	<tr>
+		    	<td>state</td>
+		    	<td>de.groth.dts.plugins.parameters.ParameterTypeState</td>
+		  	</tr>
+		  	<tr>
+		    	<td>insertion pattern</td>
+		    	<td>de.groth.dts.plugins.parameters.ParameterTypeInsertionPattern</td>
+		  	</tr>
+		</tbody>
+	</table>
+  </chapter>
+  <chapter xml:id="buildInGenerics">
+  	<title>Build-In Generics</title>
+  	<para>This chapter lists and briefly explains all build-in generics that can be used out of the box. At the end of this section
+  	you'll find a table with all parameter classnames which have to be set up in the plugins section in your dts xml.</para>
+  	
+  	<section xml:id="buildInGenerics_currentDate">
+        <title>Generic - Current Date (non deterministic)</title>
+
+        <para>This generic processes date and time information using different modes, processing</para>
+
+        <itemizedlist>
+          <listitem>current: the current date/time during processing</listitem>
+          <listitem>convert: the date/time the currently processed page was converted last time</listitem>
+          <listitem>export: the date/time the currently processed page was exported last time</listitem>
+          <listitem>exportAll: the date/time the exportAll method was used</listitem>
+        </itemizedlist>
+		
+		<para>Additionally you have to specify the format parameter. This one describe sthe output format using java.text.DateFormat symbols, 
+		which can be found in latest javadocs.</para>
+		
+        <table>
+			<caption>date generic attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="65%" />
+				<col width="15%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>type</td>
+			    	<td>mode to be used (see list above)</td>
+			    	<td>N (current used as default)</td>
+			  	</tr>
+			  	<tr>
+			    	<td>format</td>
+			    	<td>date/time output format</td>
+			    	<td>Y</td>
+			  	</tr>
+			</tbody>
+		 </table> 
+      </section>
+
+      <section xml:id="buildInGenerics_dynamicPath">
+        <title>Generic - Dynamic Path</title>
+
+        <para>A generic to provide the relative path to the root-directory. So if the currently converted page has a file attribute like 
+        "dirA/dirB/file" this generic will result in "../../".</para>
+        
+        <para>There is an optional parameter named 'pageId' which takes a page id and appends the path from the given page, so that you 
+        might link all pages without wondering about directory depths.</para>
+
+        <table>
+			<caption>dynamic path generic attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="65%" />
+				<col width="15%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>pageId</td>
+			    	<td>path to output file of referenced page will be appended to output</td>
+			    	<td>N</td>
+			  	</tr>
+			</tbody>
+		 </table> 
+      </section>
+
+      <section xml:id="buildInGenerics_fileContent">
+        <title>Generic - File Content</title>
+
+        <para>Includes the content of the specified file. The parameter 'file' is evaluated as relative path from baseDtsPath.</para>
+
+        <table>
+			<caption>file content generic attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="65%" />
+				<col width="15%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>file</td>
+			    	<td>path (relative to basePath) to be included</td>
+			    	<td>Y</td>
+			  	</tr>
+			</tbody>
+		 </table> 
+      </section>
+
+      <section xml:id="buildInGenerics_pageId">
+        <title>Generic - Page ID</title>
+
+        <para>Prints out the id of the page currently converted.</para>
+        
+        <table>
+			<caption>pageId generic attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="65%" />
+				<col width="15%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>-</td>
+			    	<td>-</td>
+			    	<td>-</td>
+			  	</tr>
+			</tbody>
+		 </table> 
+      </section>
+
+      <section xml:id="buildInGenerics_pageInclude">
+        <title>Generic - Page Include</title>
+
+        <para>Takes a page by id in 'page' parameter, converts the referenced page and includes the result.</para>
+        
+        <table>
+			<caption>page include generic attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="65%" />
+				<col width="15%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>page</td>
+			    	<td>id of page to be included</td>
+			    	<td>Y</td>
+			  	</tr>
+			</tbody>
+		 </table>  
+      </section>
+
+      <section xml:id="buildInGenerics_properties">
+        <title>Generic - Properties</title>
+
+        <para>Reads the specified properties file and prints out the value to the specified key.</para>
+
+        <table>
+			<caption>properties generic attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="65%" />
+				<col width="15%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>properties</td>
+			    	<td>path (relative to basePath) to properties file</td>
+			    	<td>Y</td>
+			  	</tr>
+			  	<tr>
+			    	<td>key</td>
+			    	<td>key of properties file</td>
+			    	<td>Y</td>
+			  	</tr>
+			</tbody>
+		 </table> 
+      </section>
+
+      <section xml:id="buildInGenerics_xsl">
+        <title>Generic - XSLT</title>
+
+        <para>Processes a xml transformation using the specified xml and xsl documents.</para>
+
+        <table>
+			<caption>xslt generic attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="65%" />
+				<col width="15%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>xml</td>
+			    	<td>path (relative to basePath) to xml document</td>
+			    	<td>Y</td>
+			  	</tr>
+			  	<tr>
+			    	<td>xsl</td>
+			    	<td>path (relative to basePath) to xsl document</td>
+			    	<td>Y</td>
+			  	</tr>
+			</tbody>
+		 </table> 
+      </section>
+      
+      <section xml:id="buildInGenerics_state">
+        <title>Generic - State</title>
+
+        <para>Uses a state to provide its value.</para>
+
+        <table>
+			<caption>state generic attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="65%" />
+				<col width="15%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>state</td>
+			    	<td>id of state to be used</td>
+			    	<td>Y</td>
+			  	</tr>
+			  	<tr>
+			    	<td>value</td>
+			    	<td>states condition</td>
+			    	<td>Y</td>
+			  	</tr>
+			</tbody>
+		 </table> 
+      </section>
+      
+      <section xml:id="buildInGenerics_insertionPattern">
+        <title>Generic - Insertion Pattern</title>
+
+        <para>Transforms an insertion pattern and outputs the transformed data as value. All parameters which not match
+        one of the table below (except the last entry of course) will activate or deactivate an insertion point named like
+        the parameter. Use a boolean representation of 'true' to activate, all other parameter values will result in an
+        deactivated insertion point. Only not mentioned insertion points will get the state 'unreplaced'.</para>
+
+        <table>
+			<caption>insertion pattern generic attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="65%" />
+				<col width="15%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>insertion pattern</td>
+			    	<td>id of insertion pattern to be used</td>
+			    	<td>Y</td>
+			  	</tr>
+			  	<tr>
+			    	<td>activeValue</td>
+			    	<td>value to be set for active insertion points (will override default value, if set)</td>
+			    	<td>N</td>
+			  	</tr>
+			  	<tr>
+			    	<td>inactiveValue</td>
+			    	<td>value to be set for inactive insertion points (will override default value, if set)</td>
+			    	<td>N</td>
+			  	</tr>
+			  	<tr>
+			    	<td>unreplacedValue</td>
+			    	<td>value to be set for unreplaced insertion points (will override default value, if set)</td>
+			    	<td>N</td>
+			  	</tr>
+			  	<tr>
+			  		<td>any parameter which is not one from the above list</td>
+			    	<td>put a boolean representation to active or deactive the insertion point. 'pointA=1,pointB=0' will
+			    	result in insertion point 'pointA' active and 'pointB' inactive.</td>
+			    	<td>N</td>
+			  	</tr>
+			</tbody>
+		 </table> 
+      </section>
+      
+      <table>
+		<caption>generic plugin classnames</caption>
+		<colgroup>
+			<col width="25%" />
+			<col width="75%" />
+		</colgroup>
+		<thead>
+			<tr>
+				<td>generic plugin</td>
+		    	<td>classname</td>
+			</tr>
+		</thead>
+		<tbody>
+		  	<tr>
+		    	<td>current date</td>
+		    	<td>de.groth.dts.plugins.generics.GenericTypeCurrentDate</td>
+		  	</tr>
+		  	<tr>
+		    	<td>dynamic path</td>
+		    	<td>de.groth.dts.plugins.generics.GenericTypeDynamicPath</td>
+		  	</tr>
+		  	<tr>
+		    	<td>file content</td>
+		    	<td>de.groth.dts.plugins.generics.GenericTypeFileContent</td>
+		  	</tr>
+		  	<tr>
+		    	<td>page id</td>
+		    	<td>de.groth.dts.plugins.generics.GenericTypePageId</td>
+		  	</tr>
+		  	<tr>
+		    	<td>page include</td>
+		    	<td>de.groth.dts.plugins.generics.GenericTypePageInclude</td>
+		  	</tr>
+		  	<tr>
+		    	<td>properties</td>
+		    	<td>de.groth.dts.plugins.generics.GenericTypePropertyReader</td>
+		  	</tr>
+		  	<tr>
+		    	<td>xslt</td>
+		    	<td>de.groth.dts.plugins.generics.GenericTypeXslt</td>
+		  	</tr>
+		  	<tr>
+		    	<td>state</td>
+		    	<td>de.groth.dts.plugins.generics.GenericTypeState</td>
+		  	</tr>
+		  	<tr>
+		    	<td>insertion pattern</td>
+		    	<td>de.groth.dts.plugins.generics.GenericTypeInsertionPattern</td>
+		  	</tr>
+		</tbody>
+	</table>
+  </chapter>
+  <chapter xml:id="buildInProcessings">
+  	<title>Build-In Processings</title>
+  	<para>This chapter lists and briefly explains all build-in processings that can be used out of the box. At the end of this section
+  	you'll find a table with all parameter classnames which have to be set up in the plugins section in your dts xml.</para>
+  	
+  	<section xml:id="buildInProcessings_clear">
+       <title>Processing - Clear</title>
+
+       <para>Clear a directory, meaning all subdirectories and files will be deleted, but not the directory itself. The
+       given path will be evaluated relative to the exportPath.</para>
+
+       <table>
+			<caption>clear processing xml attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="65%" />
+				<col width="15%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>xml attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>path</td>
+			    	<td>path relative to exportPath</td>
+			    	<td>Y</td>
+			  	</tr>
+			</tbody>
+		</table>
+     </section>
+     
+     <section xml:id="buildInProcessings_copy">
+       <title>Processing - Copy</title>
+
+       <para>Will copy resources (directory or file) from basePat into exportPath and create target subdirectories
+       if not existent.</para>
+
+       <table>
+			<caption>copy processing xml attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="65%" />
+				<col width="15%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>xml attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>from</td>
+			    	<td>resource source path relative to basePath</td>
+			    	<td>Y</td>
+			  	</tr>
+			  	<tr>
+			    	<td>to</td>
+			    	<td>resource target path relative to exportPath (directories will be created if not existent)</td>
+			    	<td>Y</td>
+			  	</tr>
+			</tbody>
+		</table>
+     </section>
+     
+     <section xml:id="buildInProcessings_delete">
+       <title>Processing - Delete</title>
+
+       <para>Will delete resources (directory or file). Given path will be evaluated relative to exportPath.</para>
+
+       <table>
+			<caption>delete processing xml attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="65%" />
+				<col width="15%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>xml attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>path</td>
+			    	<td>path relative to exportPath</td>
+			    	<td>Y</td>
+			  	</tr>
+			</tbody>
+		</table>
+     </section>
+     
+     <section xml:id="buildInProcessings_generateConfig">
+       <title>Processing - Generate Config</title>
+
+       <para>Will generate the dts xml file (which is your projects 'configuration'). The given path will be evaluated
+       relative to exportPath.</para>
+
+       <table>
+			<caption>generate config processing xml attributes</caption>
+			<colgroup>
+				<col width="20%" />
+				<col width="65%" />
+				<col width="15%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<td>xml attribute</td>
+			    	<td>description</td>
+			    	<td>mandatory</td>
+				</tr>
+			</thead>
+			<tbody>
+			  	<tr>
+			    	<td>path</td>
+			    	<td>path relative to exportPath</td>
+			    	<td>Y</td>
+			  	</tr>
+			  	<tr>
+			    	<td>file</td>
+			    	<td>filename to be used for generated xml file</td>
+			    	<td>Y</td>
+			  	</tr>
+			</tbody>
+		</table>
+     </section>
+     
+     <table>
+		<caption>processing plugin classnames</caption>
+		<colgroup>
+			<col width="25%" />
+			<col width="75%" />
+		</colgroup>
+		<thead>
+			<tr>
+				<td>processing plugin</td>
+		    	<td>classname</td>
+			</tr>
+		</thead>
+		<tbody>
+		  	<tr>
+		    	<td>clear</td>
+		    	<td>de.groth.dts.plugins.processings.ProcessingTypeClearDirectory</td>
+		  	</tr>
+		  	<tr>
+		    	<td>copy</td>
+		    	<td>de.groth.dts.plugins.processings.ProcessingTypeCopyResources</td>
+		  	</tr>
+		  	<tr>
+		    	<td>delete</td>
+		    	<td>de.groth.dts.plugins.processings.ProcessingTypeDeleteResources</td>
+		  	</tr>
+		  	<tr>
+		    	<td>generate config</td>
+		    	<td>de.groth.dts.plugins.processings.ProcessingTypeGenerateConfig</td>
+		  	</tr>
+		</tbody>
+	</table>
+  </chapter>
+  <chapter xml:id="aboutTheSampleProject">
+    <title>Sample Project</title>
+
+    <para>At this point of this guide you have an idea of all the concepts used by &dts; and all build in parameters,
+    generics and processings. You might have asked yourself how to get all the stuff working and producing some output, right?</para>
+
+	<para>Well .. take a look at the sample project. This &dts; project uses all concepts and all build in plugins, so you can
+	see them in action and also get an idea how they are meant to be used.</para>
+	
+    <section xml:id="aboutTheSampleProject_structure">
+      <title>Structure</title>
+
+      <para>Let's focus on the directory structure first. If you unzip the archive (let's call this directory 'sampleProject') you get 
+      the following directories and files:</para>
+	  
+	  <table>
+		<caption>sample project directory structure</caption>
+		<colgroup>
+			<col width="40%" />
+			<col width="60%" />
+		</colgroup>
+		<thead>
+			<tr>
+				<td>resource</td>
+		    	<td>description</td>
+			</tr>
+		</thead>
+		<tbody>
+		  	<tr>
+		  		<td>sampleProject/lib</td>
+		  		<td>all needed libraries plus all dts modules are put here</td>
+		  	</tr>
+		  	<tr>
+		  		<td>sampleProject/sample</td>
+		  		<td>this is the project directory, later more to this one ...</td>
+		  	</tr>
+		  	<tr>
+		  		<td>sampleProject/src</td>
+		  		<td>you can put your won plugin here, they will be put to classpath before execution. Nice service eh?</td>
+		  	</tr>
+		  	<tr>
+		  		<td>sampleProject/export</td>
+		  		<td>directory with generated content (will be created on first run)</td>
+		  	</tr>
+		  	<tr>
+		  		<td>sampleProject/build.VERSION</td>
+		  		<td>a file that shows you the current version of used &dts;</td>
+		  	</tr>
+		  	<tr>
+		  		<td>sampleProject/configureClasspath.bat</td>
+		  		<td>hanges classpath (temporarily) before execution</td>
+		  	</tr>
+		  	<tr>
+		  		<td>sampleProject/executeWithNoCustomSources.bat</td>
+		  		<td>execute the BatchInvoker and exports all pages to export-folder. Note that the BatchInvoker is executed
+		  		directly. If you want to use your own plugins from sampleProject/src use execute.bat instead (see one entry below).</td>
+		  	</tr>
+		  	<tr>
+		  		<td>sampleProject/execute.bat</td>
+		  		<td>execute the BatchInvoker and exports all pages to export-folder. Note that before the BatchInvoker is executed
+		  		the ant script will be run, to compile your sources to sampleProject/lib (see one entry below)</td>
+		  	</tr>
+		  	<tr>
+		  		<td>sampleProject/build.xml</td>
+		  		<td>compiles your sources from sampleProject/src and puts them into sampleProject/lib</td>
+		  	</tr>
+		  	<tr>
+		  		<td>sampleProject/log4j.xml</td>
+		  		<td>log4j settings</td>
+		  	</tr>
+		</tbody>
+	   </table>
+	  
+	  <para>As you already know, you have to provide three parameters to the BatchInvoker so set basePath, dts xml file and exportPath.
+	  If you want to change these parameters, you can find them in the execute.bat and executeWithNoCustomSources.bat.</para>
+	  
+	  <para>The project-directory (sampleProject/sample, further called workspace) is organized  within the structure you see below. Of
+	  course you can organize this directory like you want, but it is a good practice to provide the projects dts xml in the root of your 
+	  workspace. It's also a good idea to separate data for content generation, templates and static resources.</para>
+	  
+	  <table>
+		<caption>sample project workspace directory structure</caption>
+		<colgroup>
+			<col width="40%" />
+			<col width="60%" />
+		</colgroup>
+		<thead>
+			<tr>
+				<td>resource</td>
+		    	<td>description</td>
+			</tr>
+		</thead>
+		<tbody>
+		  	<tr>
+		  		<td>workspace/data</td>
+		  		<td>data used for generating content</td>
+		  	</tr>
+		  	<tr>
+		  		<td>workspace/static</td>
+		  		<td>static resources (these are copied into export directory during processing)</td>
+		  	</tr>
+		  	<tr>
+		  		<td>workspace/themes</td>
+		  		<td>template files for all themes can be found here</td>
+		  	</tr>
+		  	<tr>
+		  		<td>workspace/helloWorld.dts.xml</td>
+		  		<td>your projects dts xml file</td>
+		  	</tr>
+		 </tbody>
+	  </table>
+
+      <para>Before you take a closer look at the helloWorld project definition, let me say one thing: It's possible to do things easier.</para>
+    
+	  <para>Yes, some things in this helloWorld project might be done a little complicated, but this example uses each element (parameter, 
+	  generic, processing) at least one time, so that you can take a look at how the different elements are meant to be used.</para>
+    
+      <para>If you run one of the batch files of call the BatchInvoker from console or do whatever to start this &dts; project you'll notice
+      a new directory 'export' (mentioned above) and log4j logfiles. For now just ignore the logfiles and take a look into the export folder.</para>
+    
+    <para>You will see one html file per defined page in the project definition. Each html file used only one concept or parameter or generic,
+    so that you have the possibility to study the xml definition, maybe think about it and think about what you expect to happen and compare
+    it with the html result.</para>
+    </section>
+  </chapter>
+
+  <chapter xml:id="getStarted">
+    <title>Get Started</title>
+
+    <para>To get started with your own &dts; project there is no general way which fits all requirements. This chapter can not take your hand
+    and tell you what steps have to be done to get to you perfect project setup. I just want to list some notes and hints what you might
+    think of if you set up your own &dts; project.</para>
+    
+    <itemizedlist>
+        <listitem>it's always a good idea to take a look at a sample or helloWorld project at first</listitem>
+        <listitem>you might want to copy the helloWorld.dts.xml, rename it or just copy the plugins definition in your own dts xml file</listitem>
+        <listitem>it's helpful to keep your workspace clean. put the dts xml in the root directory and create different folders for different
+        information (static files, template files, include files, ...)</listitem>
+        <listitem>copy the log4j.properties to get a log file so you can take a look at it, if something fails during execution</listitem>
+      </itemizedlist>
+  </chapter>
+</book>

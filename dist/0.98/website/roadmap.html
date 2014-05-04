@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>		
+		<title>DTS - Dynamic Template System</title>
+		<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+		
+		<meta http-equiv="pragma" content="no-cache" />
+		<meta http-equiv="cache-control" content="no-cache" />
+		<meta http-equiv="expires" content="0" />
+		<meta http-equiv="language" content="de" />
+		
+		<meta name="description" content="The Dynamic Template System is a java and xml based system to generate any kind of content, from xhtml to plain text." />
+		<meta name="keywords" content="Dynamic Template System,DTS,Java,XML,XSL,XSLT,Template System,Template,Templating" />
+		<meta name="page-topic" content="Dynamic Template System,Java,XML,XSL,XSLT,Templating" />
+		<meta name="robots" content="index,follow" />
+		<meta name="revisit-after" content="14 days" />
+		
+		<meta name="author" content="Christian Groth" />
+		<meta name="publisher" content="Christian Groth" />
+		<meta name="copyright" content="Christian Groth" />
+		
+		<meta name="date" content="2009-01-12" />
+		
+		<link type="text/css" href="styles/basic.css" rel="stylesheet"/>
+		<link type="text/css" href="styles/menu.css" rel="stylesheet"/>
+		<link type="text/css" href="styles/content.css" rel="stylesheet"/>
+		<script type="text/javascript" src="javascript/externalLinks.js"></script>
+	</head>
+	<body>
+		<div id="centerContainer">
+			<div id="left" class="column">
+				<div class="contentRow">
+					<h2>Main</h2>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="download.html">Download</a></li>
+						<li><a href="changelog.html">Changelog</a></li>
+						<li><a href="roadmap.html">Roadmap</a></li>
+					</ul>
+				</div>
+				<div class="contentRow">
+					<h2>Documentation</h2>
+					<ul>
+						<li><a href="usersguide.pdf" rel="external">Users-Guide</a></li>
+						<li><a href="developersguide.pdf" rel="external">Developers-Guide</a></li>
+					</ul>
+				</div>
+			</div>
+			<div id="innerLeft" class="column">
+			
+			</div>
+			<div id="center" class="column">
+				<div id="contenContainert">
+					<div id="roadmap">
+<h1>Unscheduled Features:</h1>
+<div class="roadmapTodo">
+<p class="title">insertion pattern may hold data in file (update usersguide) (0.01)</p>
+<span class="roadmapTodoBody"/>
+</div>
+<div class="roadmapTodo">
+<p class="title">ShellExportInvoker (0.01)</p>
+<span class="roadmapTodoBody">
+<ul>
+					<li>arguments
+						<ul>
+							<li>basePath</li>
+							<li>file</li>
+							<li>exportPath</li>
+						</ul>
+					</li>
+					<li>commands
+						<ul>
+							<li>help|h|?</li>
+					 		<li>baseDir|bd [baseDir]</li>
+					 		<li>exportPath|ep [exportPath]</li>
+					 		<li>load|l [file]</li>
+					 		<li>reload|refresh|r</li>
+					 		<li>exportAll|ea</li>
+					 		<li>export|e [pageId]</li>
+						</ul>
+					</li>
+					<li>command chaining
+						<ul>
+							<li>if command-stack includes help, just print help and an message that help must be the only command</li>
+							<li>else process commands in defined order</li>
+							<li>- r e index e news</li>
+						</ul>
+					</li>
+				</ul>
+</span>
+</div>
+<div class="roadmapTodo">
+<p class="title">security manager (0.02)</p>
+<span class="roadmapTodoBody">
+<ul>
+					<li>do not allow file system operations which are not in directories
+						<ul>
+							<li>baseDts</li>
+							<li>baseExport</li>
+						</ul>
+					</li>
+					<li>do not allow writing in baseDts</li>
+				</ul>
+</span>
+</div>
+<div class="roadmapTodo">
+<p class="title">processing antAction (0.02)</p>
+<span class="roadmapTodoBody">
+<ul>
+					<li>buildFile, target</li>
+					<li>base path is dts or export??</li>
+				</ul>
+</span>
+</div>
+<div class="roadmapTodo">
+<p class="title">processing FtpPublish (0.02)</p>
+<span class="roadmapTodoBody">
+<ul>
+					<li>parameters
+						<ul>
+							<li>host, user, pass</li>
+							<li>from, to</li>
+							<li>clearDirBeforStartCopy</li>
+							<li>overwrite, deleteOld</li>
+						</ul>
+					</li>
+					<li>need much logging for this one here, does current api provide this??</li>
+					<li>what if you dont want to provide you password??
+						<ul>
+							<li>see feature user conversation</li>
+						</ul>
+					</li>
+				</ul>
+</span>
+</div>
+<div class="roadmapTodo">
+<p class="title">processing SvnAction (0.02)</p>
+<span class="roadmapTodoBody">
+<ul>
+					<li>parameters
+						<ul>
+							<li>action="checkout|update|commit"</li>
+							<li>user, pass</li>
+							<li>server, repository</li>
+						</ul>
+					</li>
+					<li>what if you dont want to provide you password??
+						<ul>
+							<li>see feature user conversation</li>
+						</ul>
+					</li>
+				</ul>
+</span>
+</div>
+<div class="roadmapTodo">
+<p class="title">user conversation (0.10)</p>
+<span class="roadmapTodoBody">
+<ul>
+					<li>sometimes it would be nice if the user might make decisions</li>
+					<li>the interface the user acts with is the IConverter
+						<ul>
+							<li>we need the possibility that the converter can ask questions and the user provides the answers (for BatchInvoker the questions must be dumped out to console)</li>
+							<li>we could use the jcs project to implement this?? although its not even in beta status ...</li>
+							<li>IConverter must have askUserQuestions(UserQuestion[] questions)</li>
+							<li>IInvoker must have deliverUserAnswers(UserAnswer[] answers)</li>
+							<li>class UserQuestion{String question, long id, String description, String[] possibleAnswers)</li>
+							<li>class UserAnswer(String answer, long id, UserQuestion question)</li>
+						</ul>
+					</li>
+				</ul>
+</span>
+</div>
+<div class="roadmapTodo">
+<p class="title">BatchInvoker (0.01)</p>
+<span class="roadmapTodoBody">
+<ul>
+					<li>only export changed pages!!</li>
+					<li>check for @NoNDeterministic used for Parameters and Generics</li>
+					<li>generate some sort of cache (pages converterd without @NonDeterministic)</li>
+					<li>PROBLEM: compare converted page against cache (THIS INVOKES CONVERT, SO THERE IS NO REAL ADVANTAGE FOR NON-EXPORT)</li>
+					<li>if changed, do export</li>
+				</ul>
+</span>
+</div>
+</div>
+
+				</div>
+			</div>
+			<div id="innerRight" class="column">
+			
+			</div>
+			<br class="clearer" />
+		</div>
+	</body>
+</html>

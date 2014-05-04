@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<changelog for="dynamicTemplateSystem">
+	<release build="0.98" releaseDate="2009.01.12">
+		<features>
+			<parameter title="ParameterTypePropertyReader">
+				<p>reads a properties-file and prints out the value to the given key</p>
+				<p><![CDATA[<param name="..." type="..." propertyFile="foo" propertyKey="bar" />]]></p>
+			</parameter>
+			<feature title="XSL-Transformations">
+				<parameter title="ParameterTypeXslt">
+					<p><![CDATA[<param type="..." name="..." xml="foo" xsl="bar" />]]></p>
+				</parameter>
+				<generic title="GenericTypeXslt">
+					<p><![CDATA[${...:xml=foo,xsl=bar}]]></p>
+				</generic>
+			</feature>
+			<dto title="Insertion Pattern">
+				<ul>
+					<li>different templating syntax: ${} can't be used because you also want to use generics in this snippets!!</li>
+					<li>for inerstion-points you have to use another character instead of "$". We use: "#"</li>
+					<li>useful to have a helper which invokes generics and insertion points so the prefix might be a parameter</li>
+				</ul>
+				<p><![CDATA[
+					<insertionPattern id="foo" cropCData="1|0">
+						<defaultActiveInsertion>bar</defaultActiveInsertion>
+						<defaultInactiveInsertion>boo</defaultInactiveInsertion>
+						<defaultUnreplacedInsertion>far</defaultUnreplacedInsertion>
+						<data>...</data>
+					</insertionPattern>
+				]]></p>
+				<parameter title="ParameterTypeInsertionPattern">
+					<p><![CDATA[<param type="insertionPattern" name="..." insertionPattern="foo" active="home,drummer" inactive="..." activeValue="" inactiveValue="" unreplacedValue="" />]]></p>
+				</parameter>
+				<generic title="GenericTypeInsertionPattern">
+					<p><![CDATA[${genericName:insertionPattern=...,activeValue=...,inactiveValue=...,unreplacedValue=...,bar=1|0,home=1,drummer=1}]]></p>
+				</generic>
+			</dto>
+			<generic title="GenericTypeFileContent">
+				<p><![CDATA[${...:file=foo}]]></p>
+			</generic>
+			<generic title="GenericTypeState">
+				<p><![CDATA[${...:state=foo,value=bar}]]></p>
+			</generic>
+			<generic title="GenericTypePageInclude">
+				<p><![CDATA[${...:page=foo}]]></p>
+			</generic>
+			<feature title="Theme Inheritance">
+				<ul>
+					<li>you can define the attribute superThemeId for a theme, referencing another theme by id</li>
+					<li>if you define a super-theme you must not define the template file!</li>
+					<li>take care you don't create circular dependencies!</li>
+				</ul>
+			</feature>
+			<feature title="Last convert/export date now saved per page!!" />
+			<feature title="Parameters and Generics might be marked as non deterministiclast" />
+		</features>
+		<fixed>
+			<fix title="state handling and value resolving" />
+		</fixed>
+		<refactored>
+			<refactor title="consistent naming and packaging of parameter, generics and processings" />
+			<refactor title="architecture and api" />
+			<refactor title="xml-handling" />
+		</refactored>
+		<removed>
+			<removed title="mainPage attribute in pages-node" />
+			<removed title="pageHierarchy" />
+		</removed>
+		<documentation>
+			<change title="usersguide written" />
+			<change title="developersguide written" />
+			<change title="completely refactored the sampleProject" />
+			<change title="updated javadocs" />
+			<change title="updated logging" />
+		</documentation>
+	</release>
+	<release build="0.85" releaseDate="2008.02.08">
+		<features>
+			<parameter title="ParameterTypePage">
+				<ul>
+					<li>create nested pages with this type of parameter</li>
+				</ul>
+				<p><![CDATA[<param name="..." type="..." page="..." />]]></p>
+			</parameter>
+			<generic title="GenericTypeCurrentDate">
+				<ul>
+			 		<li>prints out the current date (while executing this generic)</li>
+					<li>you must provide a valid java date format with format attribute</li>
+			 		<li>configure the date you want to have with type attribute
+						<ul>
+				 			<li>current: standard, see above</li>
+				 			<li>convert: date, when convert-function was called</li>
+				 			<li>export: date, when export-function was called</li>
+				 			<li>exportAll: date, when exportAll-function was called (same date for all pages during exportAll)</li>
+						</ul>
+					</li>
+				</ul>
+				<p><![CDATA[${...:format=..., type=current|convert|export|exportAll}]]></p>
+			</generic>
+			<generic title="GenericTypePropertyReader">
+		 		<ul>
+					<li>reads a properties-file and prints out the key to the given value</li>
+				</ul>
+		 		<p><![CDATA[${...:properties=...,key=...}]]></p>
+			</generic>
+			<feature title="default condition for state">
+				<ul>
+					<li>added optional default condition for states (you can leave this away)</li>
+				</ul>
+			</feature>
+			<feature title="warning if unreplaced parameters/generics are found" />
+		</features>
+		<fixed>
+			<fix title="handling of pages without file attribute">
+				<ul>
+					<li>calling exportAll will ignore that ones</li>
+					<li>exporting them explicitly will result in an exception!</li>
+				</ul>
+			</fix>
+		</fixed>
+		<removed>
+			<removed title="removed switch-concept" >
+				<ul>
+					<li>use parameter overriding with parameterTypeEmpty to kind of "turn a parameter off"</li>
+				</ul>
+			</removed>
+			<removed title="removed schedules" />
+		</removed>
+		<documentation>
+			<change title="SampleProject">
+				<ul>
+					<li>updated documentation, this might be useful now ;-)</li>
+					<li>updated parameter and generics</li>
+					<li>added build.xml to create jar with user-sources before batch execution
+						<ul>
+							<li><b>be sure to have ant installed, otherwise remove ant call from execute.bat</b></li>
+						</ul>
+					</li>
+				</ul>
+			</change>
+			<change title="logging information from processings" />
+		</documentation>
+		<buildManagement>
+			<change title="integrated findbugs" />
+			<change title="integrated checkstyle" />
+		</buildManagement>
+	</release>
+	<release build="0.77" releaseDate="2007.12.03">
+		<documentation>
+			<change title="basic JavaDocs" />
+		</documentation>
+		<buildManagement>
+			<change title="integrated JavaDocGeneration" />
+		</buildManagement>
+ 	</release>
+	<release build="0.76" releaseDate="2007.12.03">
+		<fixed>
+			<fix title="fixed sample project" />
+		</fixed>
+		<refactored>
+			<refactor title="refactored eclipse projects" />
+		</refactored>
+		<buildManagement>
+			<change title="refactored deployment units" />
+		</buildManagement>
+	</release>
+	<release build="0.75" releaseDate="2007.11.28">
+		<features>
+			<feature title="PluginArchitecture">
+				<ul>
+					<li>configure for each dts-file the plugins you want to load</li>
+					<li>available plugin-types are: processing, parameter, generic, switch</li>
+				</ul>
+				<p><![CDATA[
+					<plugins>
+						<processing key="foo" class="bar" />
+						...
+						<parameter key="foo" class"bar" />
+						...
+						<generic key="foo" class="bar" />
+						...
+						<switch key="foo" class="bar" />
+						...
+					</plugins>
+				]]></p>
+			</feature>
+			<feature title="Parameterized Generics">
+				<ul>
+					<li>generics can now be parameterized with attributes
+						<ul>
+							<li>a ':' indicates following attributes up to '}'</li>
+							<li>attributes are separated by a ','</li>
+							<li>attributes are written as key/value pairs separated with '='</li>
+						</ul>
+					</li>
+					<li>unknown attributes will be ignored</li>
+					<li>in the attribute section all characters apart from '{' and '}' are allowed
+						<ul>
+							<li>even whitespace (hopefully the regex is working really correct)</li>
+						</ul>
+					</li>
+				</ul>
+				<p><![CDATA[${some.generic.name:attribute1=value1,attribute2=value2}]]></p>
+				<feature title="New Generic Attribute for GenericTypePageDynamicPath">
+					<ul>
+						<li>a path to other pages can be resolved with attribute page</li>
+						<li>the value must be an existing pageId of some page</li>
+						<li>if no value is given the behavior does not change (path to root will be generated)</li>
+					</ul>
+					<p><![CDATA[${generic.name:page=someOtherPageId}]]></p>
+				</feature>
+			</feature>
+			<feature title="schedules and periods">
+				<ul>
+					<li>you can create schedules that deliver their values dependent on current date &amp; time</li>
+					<li>for dateFormat use syntax as described in JavaDocs for java.text.SimpleDateFormat
+						<ul>
+							<li>the most recent used will probably be this one: yyyy-MM-dd HH:mm:ss</li>
+							<li>please note that a format like yyyy-MM-dd will set hour, minute and second to 0</li>
+						</ul>
+					</li>
+					<li>note that periods must not overlap!</li>
+					<li>put in dynamicTemplateSystem/schedules</li>
+				</ul>
+				<p><![CDATA[
+					<schedule id="bar" dateFormat="yyyy-MM-dd HH:mm:ss" cropCData="0|1">
+						<default>...</default>
+						<period from="" to="">...</period>
+						...
+					</schedule>
+				]]></p>
+				<parameter title="ParameterTypeSchedule">
+					<p><![CDATA[<param name="foo" type="schedule"  schedule="bar" />]]></p>
+				</parameter>
+			</feature>
+			<feature title="switches">
+				<ul>
+					<li>switches can be used to toggle values for a page without redefining any parameter</li>
+					<li>so switches are some sort of special parameters</li>
+					<li>create an parameter tag and replace the tag-name "parameter" with "switch"</li>
+					<li>available switches are
+						<ul>
+							<li><![CDATA[<switch name="foo" type="simple" value="bar" />]]></li>
+							<li><![CDATA[<switch name="foo" type="complex" cropCData="1">bar</switch>]]></li>
+							<li><![CDATA[<switch name="foo" type="fileContent" file="bar" />]]></li>
+							<li><![CDATA[<switch name="foo" type="schedule"  schedule="bar" />]]></li>
+							<li><![CDATA[<switch name="foo" type="stateful" state="bar" value="foobar" />]]></li>
+						</ul>
+					</li>
+				</ul>
+				<p><![CDATA[
+					<switches>
+						<switch ... />
+						...
+					</switches>
+				]]></p>
+				<parameter title="ParameterTypeSwitch">
+					<p><![CDATA[<param name="foo" type="switch" switch="bar" use="1|0" />]]></p>
+				</parameter>
+			</feature>
+			<feature title="check if every page is in hierarchy, else warn" />
+		</features>
+		<refactored>
+			<refactor title="BatchInvoker: deliver the following parameter: basePath, dtsFile, exportPath" />
+			<refactor title="efactored xml-handling, dto-handling, dto-instantiation ... nearly everything" />
+		</refactored>
+		<removed>
+			<removed title="page: removed menu-attribute" />
+		</removed>
+	</release>
+	<release build="0.62" releaseDate="2007.10.01">
+		<features>
+			<processing title="ProcessingTypeGenerateConfig">
+				<ul>
+					<li>generates dts config file</li>
+					<li>path: the path for export. this is relative to general export path</li>
+					<li>file: file name</li>
+				</ul>
+				<p><![CDATA[
+					<processing type="generateConfig" path="" file="" />
+				]]></p>
+			</processing>
+			<processing title="ProcessingTypeCopyRessources">
+				<ul>
+					<li>merged ProcessingCopyDir and ProcessingCopyFile</li>
+				</ul>
+			</processing>
+			<feature title="new page attribute: menu">
+				<ul>
+					<li>flag that indicates if this is a menu page</li>
+				</ul>
+			</feature>
+			<feature title="late parameter initialization due to generics">
+				<ul>
+					<li>only acceptable for parameter attributes other than name and type</li>
+					<li>dts.page.id: inserts current page id</li>
+					<li>dts.page.next.menu: inserts pageId for next menuPage in pageHierarchy</li>
+				</ul>
+			</feature>
+			<feature title="when trying to resolve a stateValue with unknown condition or empty value an exception is thrown. So no unnoticed null or empty values are proceeded." />
+		</features>
+		<fixed>
+			<fix title="generate config: xml content fixed" />
+			<fix title="generate config: content-type definition in generated xml is the same like the one in source xml" />
+		</fixed>
+		<refactored>
+			<refactor title="reading page parameters">
+				<ul>
+					<li>getting all theme parameters first</li>
+					<li>getting page parameters afterwards</li>
+					<li>checking if page only overwrites parameters defined in theme</li>
+					<li>put all parameters in pages array, due to lazy parameter initialization
+						<ul>
+							<li>otherwise a late initialization would not be page specific</li>
+						</ul>
+					</li>
+					<li>a theme still has all its parameters</li>
+				</ul>
+			</refactor>
+		</refactored>
+	</release>
+	<release build="0.52" releaseDate="2007.09.17">
+		<features>
+			<generic title="GenericTypeGenerateConfig">
+				<ul>
+					<li>generating new config-file</li>
+				</ul>
+			</generic>
+			<feature title="CData cropping">
+				<ul>
+					<li>if using CData in pre, post or condition the value in templates can be without the CData-tags</li>
+					<li>use xml-attribute cropCData with values 1, y or yes</li>
+				</ul>
+				<parameter title="ParameterTypeComplex">
+					<ul>
+						<li>reading the parameter value from xml body content</li>
+						<li>if using CData the exported value in templates can be without the CData-tags</li>
+						<li>use xml-attribute cropCData with values 1, y or yes</li>
+					</ul>
+				</parameter>
+			</feature>
+			<feature title="definition of page hierarchy" />
+		</features>
+		<fixed>
+			<fix title="dto toString-methods" />
+		</fixed>
+	</release>
+	<release build="0.50" releaseDate="2007.09.14">
+		<features>
+			<feature title="generics">
+				<p>Generics are replaced after all other parameters have been processed. The value is computed by current page, 
+				theme and overall attributes.</p>
+				<generic title="GenericPageDynamicPath">
+					<ul>
+						<li>inserts some '../' depending on the depth of page output file</li>
+						<li>a page in a/b.html would procude ../</li>
+						<li>a page in a/b/c.html would procude ../../</li>
+						<li>a page a.html would produce nothing</li>
+					</ul>
+				</generic>
+			</feature>
+			<feature title="Pre/Post Processings">
+				<ul>
+					<li>Processings can be run before/after exportAll</li>
+				</ul>
+				<processing title="ProcessingCopyFile">
+					<ul>
+						<li>copies a file</li>
+						<li>pathFrom is relative to your xml</li>
+						<li>pathTo is relative to your export folder</li>
+					</ul>
+					<p><![CDATA[<processing type="copyFile" pathFrom="" pathTo="" />]]></p>
+				</processing>
+				<processing title="ProcessingCopyDirectory">
+					<ul>
+						<li>copies a directory with its content</li>
+						<li>pathFrom is relative to your xml</li>
+						<li>pathTo is relative to your export folder</li>
+					</ul>
+					<p><![CDATA[<processing type="copyDir" pathFrom="" pathTo="" />]]></p>
+				</processing>
+				<processing title="ProcessingClearDirectory">
+					<ul>
+						<li>clears all content in directory</li>
+						<li>path is relative to your export folder</li>
+					</ul>
+					<p><![CDATA[<processing type="clearDir" path="" />]]></p>
+				</processing>
+				<processing title="ProcessingDeleteFile">
+					<ul>
+						<li>deletes a file</li>
+						<li>path is relative to your export folder</li>
+					</ul>
+					<p><![CDATA[<processing type="copyFile" path="" />]]></p>
+				</processing>
+				<processing title="ProcessingDeleteDirectory">
+					<ul>
+						<li>deletes a directory with its content</li>
+						<li>path is relative to your export folder</li>
+					</ul>
+					<p><![CDATA[<processing type="copyDir" path="" />]]></p>
+				</processing>
+			</feature>
+			<feature title="pre/post-values for states">
+				<ul>
+					<li>define one pre and/or post node for a state</li>
+					<li>these values are put before/after each condition value while processing</li>
+				</ul>
+			</feature>
+			<feature title="a page may only overwrite parameters defined in referenced theme" />
+		</features>
+	</release>
+	<release build="0.41" releaseDate="2007.09.11">
+		<features>
+			<parameter title="ParameterTypeStateful" />
+			<parameter title="ParameterTypeFileContent" />
+			<dto title="State">
+				<parameter title="ParameterTypeState" />
+			</dto>
+		</features>
+		<documentation>
+			<change title="added changelog and roadmap" />
+		</documentation>
+ 	</release>
+	<release build="0.40" releaseDate="2007.08.13">
+		<features>
+			<feature title="initial implementation" />
+			<feature title="using themes, pages and parameters" />
+			<feature title="simple and complex parameter type" />
+			<feature title="page parameters overwrite theme parameters" />
+			<feature title="dynamically convert pages or export/exportAll pages" />
+		</features>
+	</release>
+</changelog>

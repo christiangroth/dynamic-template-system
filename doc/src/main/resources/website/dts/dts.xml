@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<dynamicTemplateSystem id="dts" name="Dynamic Template System Web">	
+	<plugins>
+		<processing key="clearDirectory" class="de.groth.dts.plugins.processings.ProcessingTypeClearDirectory" />
+		<processing key="copy" class="de.groth.dts.plugins.processings.ProcessingTypeCopyResources" />
+		<processing key="delete" class="de.groth.dts.plugins.processings.ProcessingTypeDeleteResources" />
+		<processing key="generateConfig" class="de.groth.dts.plugins.processings.ProcessingTypeGenerateConfig" />
+		
+		<param key="empty" class="de.groth.dts.plugins.parameters.ParameterTypeEmpty" />
+		<param key="simple" class="de.groth.dts.plugins.parameters.ParameterTypeSimple" />
+		<param key="complex" class="de.groth.dts.plugins.parameters.ParameterTypeComplex" />
+		<param key="fileContent" class="de.groth.dts.plugins.parameters.ParameterTypeFileContent" />
+		<param key="state" class="de.groth.dts.plugins.parameters.ParameterTypeState" />
+		<param key="pageInclude" class="de.groth.dts.plugins.parameters.ParameterTypePageInclude" />
+		<param key="propertyReader" class="de.groth.dts.plugins.parameters.ParameterTypePropertyReader" />
+		<param key="xslt" class="de.groth.dts.plugins.parameters.ParameterTypeXslt" />
+		<param key="insertionPattern" class="de.groth.dts.plugins.parameters.ParameterTypeInsertionPattern" />
+		
+		<generic key="dts.currentDate" class="de.groth.dts.plugins.generics.GenericTypeCurrentDate" />
+		<generic key="dts.dynamicPath" class="de.groth.dts.plugins.generics.GenericTypeDynamicPath" />
+		<generic key="dts.fileContent" class="de.groth.dts.plugins.generics.GenericTypeFileContent" />
+		<generic key="dts.pageId" class="de.groth.dts.plugins.generics.GenericTypePageId" />
+		<generic key="dts.pageInclude" class="de.groth.dts.plugins.generics.GenericTypePageInclude" />
+		<generic key="dts.propertyReader" class="de.groth.dts.plugins.generics.GenericTypePropertyReader" />
+		<generic key="dts.state" class="de.groth.dts.plugins.generics.GenericTypeState" />
+		<generic key="dts.xslt" class="de.groth.dts.plugins.generics.GenericTypeXslt" />
+		<generic key="dts.insertionPattern" class="de.groth.dts.plugins.generics.GenericTypeInsertionPattern" />
+	</plugins>
+	
+	<processings>
+		<post>
+			<processing type="copy" from="static" to="." />
+		</post>
+	</processings>
+	
+	<themes>
+		<theme id="default" template="themes/dts.html">
+			<param type="fileContent" name="theme.content" file="includes/${dts.pageId}.inc.html" />
+		</theme>
+	</themes>
+	
+	<pages>
+		<page id="index" theme="default" file="index.html" />
+		<page id="download" theme="default" file="download.html" />
+		
+		<page id="roadmap" theme="default" file="roadmap.html">
+			<param type="xslt" name="theme.content" xml="data/roadmap.xml" xsl="data/roadmap.xsl" />
+		</page>
+		
+		<page id="changelog" theme="default" file="changelog.html">
+			<param type="xslt" name="theme.content" xml="data/changelog.xml" xsl="data/changelog.xsl" />
+		</page>
+	</pages>
+</dynamicTemplateSystem>
